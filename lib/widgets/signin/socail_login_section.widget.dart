@@ -1,5 +1,9 @@
+// ignore_for_file: unused_local_variable, unused_element
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:tailor_book/constants/color.dart';
 
@@ -8,6 +12,26 @@ class SocialLoginSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    Future<UserCredential> signInWithGoogle() async {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+
     return Column(
       children: [
         Container(
@@ -64,7 +88,9 @@ class SocialLoginSection extends StatelessWidget {
               text: '',
               height: 52,
               buttonType: SocialLoginButtonType.google,
-              onPressed: () {},
+              onPressed: () async {
+                await GoogleSignIn().signIn();
+              },
             ),
             SocialLoginButton(
               mode: SocialLoginButtonMode.single,

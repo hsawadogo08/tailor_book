@@ -63,6 +63,7 @@ class _CustomPhoneNumberInputState extends State<CustomPhoneNumberInput> {
   Widget build(BuildContext context) {
     return Container(
       height: 52,
+      width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 30),
       padding: const EdgeInsets.symmetric(
         horizontal: 8,

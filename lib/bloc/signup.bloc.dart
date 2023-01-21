@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/models/utilisateur.model.dart';
+import 'package:tailor_book/services/sharedPrefConfig.dart';
+import 'package:tailor_book/services/sharedPrefKeys.dart';
 import 'package:tailor_book/services/user.service.dart';
 
 abstract class SignUpEvent {}
@@ -132,6 +134,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpStates> {
       } else {
         emit(SignUpLoadingState());
         await UserService.createUser(utilisateur);
+        await SharedPrefConfig.saveStringData(
+          SharePrefKeys.JWT_TOKEN,
+          utilisateur.userUID!,
+        );
         emit(
           SignUpSuccessState(
             successMessage: "Bienvenue ${utilisateur.firstName} !",

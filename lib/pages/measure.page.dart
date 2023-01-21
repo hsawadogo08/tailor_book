@@ -2,34 +2,29 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:tailor_book/bloc/measure.bloc.dart';
-import 'package:tailor_book/bloc/user.bloc.dart';
-import 'package:tailor_book/config/amount_formater.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/add_measure.page.dart';
 import 'package:tailor_book/pages/detail_measure.page.dart';
-import 'package:tailor_book/widgets/home/home_balance_item.widget.dart';
 import 'package:tailor_book/widgets/measure/measure_item.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
+import 'package:tailor_book/widgets/shared/custom_search_text_field.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MeasurePage extends StatefulWidget {
+  const MeasurePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MeasurePage> createState() => _MeasurePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MeasurePageState extends State<MeasurePage> {
   @override
   void initState() {
     super.initState();
     context.read<MeasureBloc>().add(SearchMeasuresEvent());
-    context.read<UserBloc>().add(UserInfosEvent());
-    context.read<MeasureAmountBloc>().add(MeasureAmoutEvent());
   }
 
   @override
@@ -49,7 +44,11 @@ class _HomePageState extends State<HomePage> {
             },
             fullscreenDialog: true,
           );
-          Navigator.push(context, route);
+          Navigator.push(context, route).then(
+            (value) => context.read<MeasureBloc>().add(
+                  SearchMeasuresEvent(),
+                ),
+          );
         },
         backgroundColor: secondaryColor,
         tooltip: 'Nouvelle mesure',
@@ -68,6 +67,7 @@ class _HomePageState extends State<HomePage> {
                 horizontal: 16,
                 vertical: 24,
               ),
+              width: double.infinity,
               decoration: const BoxDecoration(
                 color: primaryColor,
               ),
@@ -75,135 +75,23 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Bienvenue,',
-                        style: GoogleFonts.exo2(
-                          fontSize: 20,
-                          color: kWhite,
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: kWhite,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(
-                            color: secondaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.notifications,
-                          color: secondaryColor,
-                          size: 32,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "Mes Mesures",
+                    style: GoogleFonts.exo2(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: kWhite,
+                    ),
                   ),
-                  const SizedBox(),
-                  BlocConsumer<UserBloc, UserStates>(
-                    builder: (context, state) {
-                      if (state is GetUserInfosState) {
-                        return Text(
-                          "${state.user.lastName} ${state.user.firstName}",
-                          style: GoogleFonts.exo2(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: kWhite,
-                          ),
-                        );
-                      }
-                      return Text(
-                        "--",
-                        style: GoogleFonts.exo2(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: kWhite,
-                        ),
-                      );
-                    },
-                    listener: (context, state) {
-                      if (state is UserErrorState) {
-                        context.read<UserBloc>().add(UserInfosEvent());
-                      }
-                    },
+                  const SizedBox(
+                    height: 8,
                   ),
+                  const CustomSearchTextField(),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            BlocConsumer<MeasureAmountBloc, MeasureStates>(
-              listener: (context, state) {
-                log("MeasureBloc $state");
-              },
-              builder: (context, state) {
-                if (state is MeasureLoadingState) {
-                  return const LoadingSpinner();
-                } else if (state is MeasureAmoutSuccessState) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      HomeBalanceItem(
-                        balanceLabel: "Mon Solde",
-                        balanceValue:
-                            AmountFormater.format(state.amount['amount']),
-                      ),
-                      HomeBalanceItem(
-                        balanceLabel: "Mes Crédits",
-                        balanceValue:
-                            AmountFormater.format(state.amount['credit']),
-                        backgroundColor: secondaryColor,
-                      ),
-                    ],
-                  );
-                } else {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      HomeBalanceItem(
-                        balanceLabel: "Mon Solde",
-                        balanceValue: "--",
-                      ),
-                      HomeBalanceItem(
-                        balanceLabel: "Mes Crédits",
-                        balanceValue: "--",
-                        backgroundColor: secondaryColor,
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Text(
-                "Les mesures en attente",
-                style: GoogleFonts.exo2(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: primaryColor,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
             Expanded(
-              child: BlocConsumer<MeasureBloc, MeasureStates>(
-                listener: (context, state) {
-                  log("MeasureBloc List $state");
-                },
+              child: BlocBuilder<MeasureBloc, MeasureStates>(
                 builder: (context, state) {
                   if (state is MeasureLoadingState) {
                     return const LoadingSpinner();
@@ -241,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
+                    log("NULLL");
                     return Container();
                   }
                 },

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Utilisateur {
   String? userUID;
   String? lastName;
@@ -27,5 +29,25 @@ class Utilisateur {
       "email": email,
       "password": password,
     };
+  }
+
+  Utilisateur.fromDocumentSnapshot(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+    userUID = doc.id;
+    companyName = data["companyName"];
+    lastName = data["lastName"];
+    firstName = data["firstName"];
+    phoneNumber = data["phoneNumber"];
+    email = data["email"];
+    password = data["password"];
+  }
+
+  Utilisateur.fromMap(Map<String, dynamic> map) {
+    userUID = map["UID"];
+    companyName = map["companyName"];
+    lastName = map["lastName"];
+    firstName = map["firstName"];
+    phoneNumber = map["phoneNumber"];
+    email = map["email"];
   }
 }

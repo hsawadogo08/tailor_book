@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/signin.page.dart';
+import 'package:tailor_book/pages/signup/signup.page.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
+import 'package:tailor_book/widgets/shared/tabs.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -31,13 +33,14 @@ class WelcomePage extends StatelessWidget {
                   children: [
                     const AppLogo(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       child: Text(
                         textAlign: TextAlign.center,
-                        "Sauvegarder vos mesures en toute sécurité !",
-                        style: GoogleFonts.exo2(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
+                        "Connectez-vous pour acceder à votre compte ou vous inscrire si vous n'avez pas de compte !",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                           color: primaryColor,
                         ),
                       ),
@@ -81,7 +84,7 @@ class WelcomePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const SigninPage();
+                                return const SignupPage();
                               },
                             ),
                           );

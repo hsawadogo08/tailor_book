@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tailor_book">
    <application
-        android:label="tailor_book"
+        android:label="TailorBook"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
