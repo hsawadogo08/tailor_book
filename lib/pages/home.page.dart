@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:tailor_book/bloc/measure.bloc.dart';
@@ -49,7 +48,11 @@ class _HomePageState extends State<HomePage> {
             },
             fullscreenDialog: true,
           );
-          Navigator.push(context, route);
+          Navigator.push(context, route).then(
+            (value) => context.read<MeasureBloc>().add(
+                  SearchMeasuresEvent(),
+                ),
+          );
         },
         backgroundColor: secondaryColor,
         tooltip: 'Nouvelle mesure',
@@ -157,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                       HomeBalanceItem(
                         balanceLabel: "Mes Crédits",
                         balanceValue:
-                            AmountFormater.format(state.amount['credit']),
+                            "- ${AmountFormater.format(state.amount['credit'])}",
                         backgroundColor: secondaryColor,
                       ),
                     ],

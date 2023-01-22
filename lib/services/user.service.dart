@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,15 +22,11 @@ class UserService {
 
   static Future<Utilisateur?> onSignin(
       String phoneNumber, String password) async {
-    String userUID =
-        await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
-
-    if (userUID == "") {
-      userUID = "MDL1Hd2dsSQxPEPTgouzogfTL8B2";
-      // throw Exception("Le compte est introuvable !");
-    }
     await auth.signInAnonymously();
-    DocumentSnapshot doc = await users.doc(userUID).get();
+    DocumentSnapshot doc = await users.doc(phoneNumber).get();
+    if (!doc.exists) {
+      throw Exception("Désolé! Aucun compte n'est associé à ce numéro !");
+    }
 
     Utilisateur utilisateur = Utilisateur.fromDocumentSnapshot(doc);
 
@@ -40,10 +35,25 @@ class UserService {
     } else if (utilisateur.password != password) {
       throw Exception("Les identifiants sont érronés !");
     }
-    await SharedPrefConfig.saveBoolData(SharePrefKeys.IS_REGISTERED, true);
     await SharedPrefConfig.saveStringData(
-        SharePrefKeys.USER_INFOS, utilisateur.toMap().toString());
+      SharePrefKeys.JWT_TOKEN,
+      phoneNumber,
+    );
+    await SharedPrefConfig.saveBoolData(
+      SharePrefKeys.IS_REGISTERED,
+      true,
+    );
+    await SharedPrefConfig.saveStringData(
+      SharePrefKeys.USER_INFOS,
+      utilisateur.toMap().toString(),
+    );
     return utilisateur;
+  }
+
+  static Future<bool> verifyPhoneNumber(String phoneNumber) async {
+    await auth.signInAnonymously();
+    DocumentSnapshot doc = await users.doc(phoneNumber).get();
+    return doc.exists;
   }
 
   static Future<void> createUser(Utilisateur utilisateur) async {

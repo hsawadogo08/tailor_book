@@ -1,4 +1,6 @@
 // Event
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/models/utilisateur.model.dart';
 import 'package:tailor_book/services/user.service.dart';
@@ -63,7 +65,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInStates> {
               successMessage: "Bienvenue ${utilisateur?.lastName} !",
             ),
           );
-        } catch (e) {
+        } on Exception catch (_, e) {
+          log("$e");
           emit(
             SignInErrorState(
               errorMessage: e.toString().split(": ")[1],

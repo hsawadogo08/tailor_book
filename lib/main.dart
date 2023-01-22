@@ -12,7 +12,6 @@ import 'package:tailor_book/pages/signin.page.dart';
 import 'package:tailor_book/pages/slide.page.dart';
 import 'package:tailor_book/services/user.service.dart';
 import 'package:tailor_book/themes/custom.theme.dart';
-import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

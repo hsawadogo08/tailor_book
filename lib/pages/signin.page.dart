@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/bloc/signin.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
+import 'package:tailor_book/pages/add_photo.page.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_form_field.widget.dart';
@@ -14,7 +15,6 @@ import 'package:tailor_book/widgets/shared/tabs.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 import 'package:tailor_book/widgets/signin/forgot_password.widget.dart';
 import 'package:tailor_book/widgets/signin/not_signup.widget.dart';
-import 'package:tailor_book/widgets/signin/socail_login_section.widget.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});
@@ -145,6 +145,25 @@ class SigninPage extends StatelessWidget {
                         },
                       ),
                     ),
+                    // const SizedBox(
+                    //   height: 16,
+                    // ),
+                    // CustomButton(
+                    //   buttonText: "Ajouter une photo",
+                    //   buttonSize: 16,
+                    //   buttonColor: primaryColor,
+                    //   btnTextColor: kWhite,
+                    //   buttonFonction: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) {
+                    //           return const AddPhoto(title: "Ma photo");
+                    //         },
+                    //       ),
+                    //     );
+                    //   },
+                    // )
                     // const SizedBox(
                     //   height: 32,
                     // ),

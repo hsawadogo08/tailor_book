@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,53 +138,64 @@ class ConfirmAddMeasure extends StatelessWidget {
                 },
               ),
             ),
-            // const MeasureItemInfos(
-            //   title: "Photo du model",
-            //   titleColor: secondaryColor,
-            // ),
-            // Container(
-            //   height: 256,
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.all(16),
-            //   margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
-            //   decoration: BoxDecoration(
-            //     color: kWhite,
-            //     // borderRadius: BorderRadius.circular(12),
-            //     border: Border.all(
-            //       color: primaryColor,
-            //       width: 2,
-            //     ),
-            //   ),
-            //   child: Image.file(
-            //     File(measurement.photoModel!.path),
-            //     height: 256,
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // const MeasureItemInfos(
-            //   title: "Photo du tissu",
-            //   titleColor: secondaryColor,
-            // ),
-            // Container(
-            //   height: 256,
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.all(16),
-            //   margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
-            //   decoration: BoxDecoration(
-            //     color: kWhite,
-            //     // borderRadius: BorderRadius.circular(12),
-            //     border: Border.all(
-            //       color: primaryColor,
-            //       width: 2,
-            //     ),
-            //   ),
-            //   child: Image.file(
-            //     File(measurement.photoTissu!.path),
-            //     height: 256,
-            //   ),
-            // ),
+            const MeasureItemInfos(
+              title: "Photo du model",
+              titleColor: primaryColor,
+            ),
+            measurement.photoModel != null
+                ? Container(
+                    height: 256,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      border: Border.all(
+                        color: primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Image.file(
+                      File(measurement.photoModel!.path),
+                      height: 256,
+                    ),
+                  )
+                : const MeasureItemInfos(
+                    title: "",
+                    content: "Aucune photo du model ajoutee !",
+                    contentColor: secondaryColor,
+                  ),
+            const SizedBox(
+              height: 16,
+            ),
+            const MeasureItemInfos(
+              title: "Photo du tissu",
+              titleColor: primaryColor,
+            ),
+            measurement.photoTissu != null
+                ? Container(
+                    height: 256,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      // borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Image.file(
+                      File(measurement.photoTissu!.path),
+                      height: 256,
+                    ),
+                  )
+                : const MeasureItemInfos(
+                    title: "",
+                    content: "Aucune photo du tissu ajoutee !",
+                    contentColor: secondaryColor,
+                  ),
           ],
         ),
       ),

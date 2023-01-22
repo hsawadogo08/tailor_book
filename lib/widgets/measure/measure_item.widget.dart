@@ -80,7 +80,7 @@ class MeasureItem extends StatelessWidget {
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: secondaryColor,
+                        color: kGreen,
                       ),
                     ),
                     const SizedBox(

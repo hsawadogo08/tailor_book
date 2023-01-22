@@ -5,7 +5,6 @@ import 'package:tailor_book/pages/signin.page.dart';
 import 'package:tailor_book/pages/signup/signup.page.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
-import 'package:tailor_book/widgets/shared/tabs.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

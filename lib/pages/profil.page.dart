@@ -105,9 +105,6 @@ class ProfilPage extends StatelessWidget {
               },
             ),
             Column(
-              children: [],
-            ),
-            Column(
               children: [
                 Parameter(
                   icon: Icons.lock,

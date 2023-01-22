@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +18,8 @@ class DetailMeasurePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("${measurement.photoModelUrl}");
+    log("${measurement.photoTissuUrl}");
     double width = MediaQuery.of(context).size.width;
     double measureHeight =
         100 * double.parse("${measurement.measures!.length}");
@@ -142,6 +146,63 @@ class DetailMeasurePage extends StatelessWidget {
                 },
               ),
             ),
+            const MeasureItemInfos(
+              title: "Photo du model",
+              titleColor: primaryColor,
+            ),
+            measurement.photoModelUrl != null && measurement.photoModelUrl != ""
+                ? Container(
+                    height: 256,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      border: Border.all(
+                        color: primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Image.network(
+                      measurement.photoModelUrl!,
+                      height: 256,
+                    ),
+                  )
+                : const MeasureItemInfos(
+                    title: "",
+                    content: "Aucune photo du model ajoutee !",
+                    contentColor: secondaryColor,
+                  ),
+            const SizedBox(
+              height: 16,
+            ),
+            const MeasureItemInfos(
+              title: "Photo du tissu",
+              titleColor: primaryColor,
+            ),
+            measurement.photoTissuUrl != null && measurement.photoTissuUrl != ""
+                ? Container(
+                    height: 256,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      border: Border.all(
+                        color: primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Image.network(
+                      measurement.photoTissuUrl!,
+                      height: 256,
+                    ),
+                  )
+                : const MeasureItemInfos(
+                    title: "",
+                    content: "Aucune photo du tissu ajoutee !",
+                    contentColor: secondaryColor,
+                  ),
           ],
         ),
       ),

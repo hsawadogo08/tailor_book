@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tailor_book/models/customer.model.dart';
 import 'package:tailor_book/services/sharedPrefConfig.dart';
@@ -15,10 +17,9 @@ class CustomerService {
   static Future<String> save(Customer customer) async {
     String userUID =
         await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
-
+    log("Customer ==> $userUID");
     if (userUID == "") {
-      userUID = "MDL1Hd2dsSQxPEPTgouzogfTL8B2";
-      // throw Exception("Le compte est introuvable !");
+      throw Exception("Le compte est introuvable !");
     }
     customer.userUID = userUID;
     DocumentReference savedDoc = await customers.add(customer.toMap());
@@ -28,10 +29,10 @@ class CustomerService {
   static Future<QuerySnapshot<Object?>> getAll() async {
     String userUID =
         await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
+    log(userUID);
 
     if (userUID == "") {
-      userUID = "MDL1Hd2dsSQxPEPTgouzogfTL8B2";
-      // throw Exception("Le compte est introuvable !");
+      throw Exception("Le compte est introuvable !");
     }
     return await customers.where("userUID", isEqualTo: userUID).get();
   }

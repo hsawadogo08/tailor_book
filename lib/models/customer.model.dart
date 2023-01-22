@@ -17,7 +17,7 @@ class Customer {
     this.lastName = "",
     this.phoneNumber = "",
     this.userUID = "",
-    this.pointFidelite = 0,
+    this.pointFidelite = 1,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +34,7 @@ class Customer {
 
   Customer.fromDocumentSnapshot(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+    Timestamp docCreatedDate = data['createdDate'] ?? Timestamp.now();
     id = doc.id;
     code = data["code"];
     lastName = data["lastName"];
@@ -41,6 +42,7 @@ class Customer {
     phoneNumber = data["phoneNumber"];
     userUID = data["userUID"];
     pointFidelite = data["pointFidelite"] ?? 1;
-    createdDate = data["createdDate"] ?? DateTime.now();
+    createdDate = DateTime.fromMillisecondsSinceEpoch(
+        docCreatedDate.millisecondsSinceEpoch);
   }
 }

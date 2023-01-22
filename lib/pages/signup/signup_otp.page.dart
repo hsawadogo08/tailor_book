@@ -1,6 +1,5 @@
 // ignore_for_file: no_logic_in_create_state, use_build_context_synchronously
 
-
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -212,7 +211,8 @@ class _SignupOtpPageState extends State<SignupOtpPage> {
                             builder: (context) {
                               return SignupCompletePage(
                                 phoneNumber: phoneNumber,
-                                userUID: userCredential.user!.uid,
+                                // userUID: userCredential.user!.uid,
+                                userUID: phoneNumber,
                               );
                             },
                           ),

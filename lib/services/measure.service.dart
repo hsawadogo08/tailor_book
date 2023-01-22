@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tailor_book/models/measurement.model.dart';
 import 'package:tailor_book/services/customer.service.dart';
+import 'package:tailor_book/services/photo.service.dart';
 import 'package:tailor_book/services/sharedPrefConfig.dart';
 import 'package:tailor_book/services/sharedPrefKeys.dart';
 
@@ -11,10 +12,32 @@ class MeasureService {
   static Future<String> save(Measurement measurement) async {
     String userUID =
         await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
-
     if (userUID == "") {
-      userUID = "MDL1Hd2dsSQxPEPTgouzogfTL8B2";
-      // throw Exception("Le compte est introuvable !");
+      throw Exception("Le compte est introuvable !");
+    }
+
+    if (measurement.photoModel != null) {
+      try {
+        String? photoModelURL =
+            await PhotoService.savePhoto(measurement.photoModel!, "models");
+        measurement.photoModelUrl = photoModelURL;
+      } on Exception catch (_, e) {
+        throw Exception(
+          "Une erreur est survenue lors de l'enregistrement de la photo du model !",
+        );
+      }
+    }
+
+    if (measurement.photoTissu != null) {
+      try {
+        String? photoTissuUrl =
+            await PhotoService.savePhoto(measurement.photoTissu!, "tissus");
+        measurement.photoTissuUrl = photoTissuUrl;
+      } on Exception catch (_, e) {
+        throw Exception(
+          "Une erreur est survenue lors de l'enregistrement de la photo du model !",
+        );
+      }
     }
 
     String customerId = await CustomerService.save(measurement.customer!);
@@ -32,12 +55,19 @@ class MeasureService {
         await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
 
     if (userUID == "") {
-      userUID = "MDL1Hd2dsSQxPEPTgouzogfTL8B2";
-      // throw Exception("Le compte est introuvable !");
+      throw Exception("Le compte est introuvable !");
     }
     return await measures
         .where("userUID", isEqualTo: userUID)
         .orderBy('createdDate', descending: true)
         .get();
+  }
+
+  static Future<void> update(String measureId, String status) async {
+    return await measures.doc(measureId).update({'status': status});
+  }
+
+  static Future<void> delete(String measureId) async {
+    return await measures.doc(measureId).delete();
   }
 }

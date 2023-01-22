@@ -27,10 +27,8 @@ class Measurement {
     this.model = "",
     this.totalPrice = 0,
     this.advancedPrice = 0,
-    this.photoModelUrl =
-        "https://firebasestorage.googleapis.com/v0/b/tailor-book-5b877.appspot.com/o/models%2Ftailor_book_logo.png?alt=media&token=6f1f5033-1570-4ebb-b38c-16ff5001342d",
-    this.photoTissuUrl =
-        "https://firebasestorage.googleapis.com/v0/b/tailor-book-5b877.appspot.com/o/models%2Ftailor_book_logo.png?alt=media&token=6f1f5033-1570-4ebb-b38c-16ff5001342d",
+    this.photoModelUrl = "",
+    this.photoTissuUrl = "",
     this.measures = const {},
     this.customerId = "",
     this.isClosed = false,

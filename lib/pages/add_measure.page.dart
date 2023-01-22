@@ -3,7 +3,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_form/dynamic_form.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:tailor_book/models/customer.model.dart';
 import 'package:tailor_book/models/measurement.model.dart';
 import 'package:tailor_book/pages/add_photo.page.dart';
 import 'package:tailor_book/pages/confirm_add_measure.page.dart';
-import 'package:tailor_book/services/type_measurement.service.dart';
 import 'package:tailor_book/widgets/shared/add_photo_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_calendar.widget.dart';
@@ -364,80 +362,84 @@ class _AddMeasureState extends State<AddMeasure> {
             ),
           ),
         ),
-        // const SizedBox(
-        //   height: 16,
-        // ),
-        // AddPhotoButton(
-        //   title: "Ajouter une photo du model",
-        //   function: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         fullscreenDialog: true,
-        //         builder: (context) {
-        //           return const AddPhoto(title: "Ajouter une photo du model");
-        //         },
-        //       ),
-        //     ).then((value) {
-        //       if (value != null) {
-        //         measurement.photoModel = value;
-        //       }
-        //     });
-        //   },
-        // ),
-        // measurement.photoModel != null
-        //     ? Container(
-        //         height: 256,
-        //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-        //         decoration: BoxDecoration(
-        //           color: kWhite,
-        //           borderRadius: BorderRadius.circular(12),
-        //           border: Border.all(
-        //             color: primaryColor,
-        //             width: 2,
-        //           ),
-        //         ),
-        //         child: Image.file(
-        //           File(measurement.photoModel!.path),
-        //         ),
-        //       )
-        //     : const SizedBox.shrink(),
-        // AddPhotoButton(
-        //   title: "Ajouter une photo du tissu",
-        //   function: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         fullscreenDialog: true,
-        //         builder: (context) {
-        //           return const AddPhoto(title: "Ajouter une photo du tissu");
-        //         },
-        //       ),
-        //     ).then((value) {
-        //       if (value != null) {
-        //         measurement.photoTissu = value;
-        //       }
-        //     });
-        //   },
-        // ),
-        // measurement.photoTissu != null
-        //     ? Container(
-        //         height: 256,
-        //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-        //         decoration: BoxDecoration(
-        //           color: kWhite,
-        //           borderRadius: BorderRadius.circular(12),
-        //           border: Border.all(
-        //             color: primaryColor,
-        //             width: 2,
-        //           ),
-        //         ),
-        //         child: Image.file(
-        //           File(measurement.photoTissu!.path),
-        //           height: 256,
-        //         ),
-        //       )
-        //     : const SizedBox.shrink(),
+        const SizedBox(
+          height: 16,
+        ),
+        AddPhotoButton(
+          title: "Ajouter une photo du model",
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) {
+                  return const AddPhoto(title: "Ajouter une photo du model");
+                },
+              ),
+            ).then((value) {
+              if (value != null) {
+                setState(() {
+                  measurement.photoModel = value;
+                });
+              }
+            });
+          },
+        ),
+        measurement.photoModel != null
+            ? Container(
+                height: 256,
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                decoration: BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: primaryColor,
+                    width: 2,
+                  ),
+                ),
+                child: Image.file(
+                  File(measurement.photoModel!.path),
+                ),
+              )
+            : const SizedBox.shrink(),
+        AddPhotoButton(
+          title: "Ajouter une photo du tissu",
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) {
+                  return const AddPhoto(title: "Ajouter une photo du tissu");
+                },
+              ),
+            ).then((value) {
+              if (value != null) {
+                setState(() {
+                  measurement.photoTissu = value;
+                });
+              }
+            });
+          },
+        ),
+        measurement.photoTissu != null
+            ? Container(
+                height: 256,
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                decoration: BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: primaryColor,
+                    width: 2,
+                  ),
+                ),
+                child: Image.file(
+                  File(measurement.photoTissu!.path),
+                  height: 256,
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

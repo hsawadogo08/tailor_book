@@ -1,10 +1,10 @@
-
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/signup/signup_otp.page.dart';
+import 'package:tailor_book/services/user.service.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_phone_number_input.widget.dart';
@@ -37,40 +37,52 @@ class _SignupPageState extends State<SignupPage> {
       setState(() {
         enableSpinner = true;
       });
-      await auth.verifyPhoneNumber(
-        phoneNumber: mobile,
-        timeout: const Duration(seconds: 60),
-        verificationCompleted: (PhoneAuthCredential authCredential) async {
-          // AuthResult result = await _auth.signInWithCredential(authCredential);
-        },
-        verificationFailed: (FirebaseAuthException authException) {
-          setState(() {
-            enableSpinner = false;
-          });
-          Toast.showFlutterToast(
-            context,
-            "Une erreur est survenue lors de la vérification du numéro de téléphone !",
-            "error",
-          );
-        },
-        codeSent: (String verificationId, [int? forceResendingToken]) {
-          setState(() {
-            enableSpinner = false;
-          });
-          onNavigateToOtpPage(mobile, verificationId, forceResendingToken);
-        },
-        codeAutoRetrievalTimeout: (String error) {
-          setState(() {
-            enableSpinner = false;
-          });
-          Toast.showFlutterToast(
-            context,
-            "Une erreur est survenue lors de la vérification du numéro de téléphone !",
-            "error",
-          );
-        },
-      );
+      bool userExist = await UserService.verifyPhoneNumber(mobile);
+      if (userExist) {
+        // ignore: use_build_context_synchronously
+        Toast.showFlutterToast(
+          context,
+          "Désolé! Ce numéro de téléphone est déjà utilisé !",
+          "warning",
+        );
+      } else {
+        await validateUserPhoneNumber(mobile);
+      }
     }
+  }
+
+  Future<void> validateUserPhoneNumber(String mobile) async {
+    await auth.verifyPhoneNumber(
+      phoneNumber: mobile,
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential authCredential) async {},
+      verificationFailed: (FirebaseAuthException authException) {
+        setState(() {
+          enableSpinner = false;
+        });
+        Toast.showFlutterToast(
+          context,
+          "Une erreur est survenue lors de la vérification du numéro de téléphone !",
+          "error",
+        );
+      },
+      codeSent: (String verificationId, [int? forceResendingToken]) {
+        setState(() {
+          enableSpinner = false;
+        });
+        onNavigateToOtpPage(mobile, verificationId, forceResendingToken);
+      },
+      codeAutoRetrievalTimeout: (String error) {
+        setState(() {
+          enableSpinner = false;
+        });
+        Toast.showFlutterToast(
+          context,
+          "Une erreur est survenue lors de la vérification du numéro de téléphone !",
+          "error",
+        );
+      },
+    );
   }
 
   void onNavigateToOtpPage(

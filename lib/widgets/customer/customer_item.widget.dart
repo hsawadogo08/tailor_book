@@ -64,6 +64,9 @@ class CustomerItem extends StatelessWidget {
                         color: primaryColor,
                       ),
                     ),
+                    const SizedBox(
+                      width: 4,
+                    ),
                     Text(
                       "${customer.firstName} - ",
                       style: GoogleFonts.montserrat(

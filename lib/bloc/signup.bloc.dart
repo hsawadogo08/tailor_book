@@ -135,6 +135,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpStates> {
         emit(SignUpLoadingState());
         await UserService.createUser(utilisateur);
         await SharedPrefConfig.saveStringData(
+          SharePrefKeys.USER_INFOS,
+          utilisateur.toMap().toString(),
+        );
+        await SharedPrefConfig.saveBoolData(
+          SharePrefKeys.IS_REGISTERED,
+          true,
+        );
+        await SharedPrefConfig.saveStringData(
           SharePrefKeys.JWT_TOKEN,
           utilisateur.userUID!,
         );

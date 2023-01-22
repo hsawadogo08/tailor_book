@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/bloc/signup.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/models/utilisateur.model.dart';
-import 'package:tailor_book/pages/home.page.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_form_field.widget.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 import 'package:tailor_book/widgets/shared/slidepage.dart';
+import 'package:tailor_book/widgets/shared/tabs.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 
 class SignupCompletePage extends StatelessWidget {
@@ -190,8 +190,8 @@ class SignupCompletePage extends StatelessWidget {
       (_) {
         Navigator.of(context).pushReplacement(
           SlideRightRoute(
-            child: const HomePage(),
-            page: const HomePage(),
+            child: const Tabs(),
+            page: const Tabs(),
             direction: AxisDirection.left,
           ),
         );

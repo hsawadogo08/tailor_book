@@ -1,11 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tailor_book/constants/color.dart';
-import 'package:tailor_book/services/photo.service.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 
 class AddPhoto extends StatefulWidget {
@@ -27,8 +27,6 @@ class _AddPhotoState extends State<AddPhoto> {
       final pickedImage = await ImagePicker().pickImage(source: source);
       if (pickedImage != null) {
         imageFile = pickedImage;
-        String saveData = await PhotoService.savePhoto(imageFile!, "models");
-        log(saveData);
         setState(() {});
       }
     } catch (e) {
