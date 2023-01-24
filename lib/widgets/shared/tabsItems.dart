@@ -7,8 +7,9 @@ import 'package:tailor_book/pages/measure.page.dart';
 import 'package:tailor_book/pages/profil.page.dart';
 
 const List<Widget> tabsItems = [
-  HomePage(),
   MeasurePage(),
   CustomerPage(),
+  HomePage(),
+  Center(),
   ProfilPage(),
 ];

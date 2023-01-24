@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/constants/color.dart';
 
-
 class DynamicForm extends StatefulWidget {
   final FormController formController;
   final List<Map<String, dynamic>> fields;
@@ -39,8 +38,9 @@ class _DynamicFormState extends State<DynamicForm> {
         TextElement(
           id: element["title"],
           label: element["title"],
-          typeInput:
-              element["type"] == "NUMBER" ? TypeInput.Numeric : TypeInput.Text,
+          typeInput: TypeInput.Numeric,
+          // typeInput:
+          //     element["type"] == "NUMBER" ? TypeInput.Numeric : TypeInput.Text,
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
         ),
       );

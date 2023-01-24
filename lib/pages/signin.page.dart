@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/bloc/signin.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
-import 'package:tailor_book/pages/add_photo.page.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_form_field.widget.dart';

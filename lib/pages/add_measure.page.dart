@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:select_dialog/select_dialog.dart';
 import 'package:tailor_book/bloc/dynamic_form.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/models/customer.model.dart';
@@ -22,6 +23,7 @@ import 'package:tailor_book/widgets/shared/custom_select_field.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_text_field.widget.dart';
 import 'package:tailor_book/widgets/shared/dynamic_form.widget.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
+import 'package:tailor_book/widgets/shared/select_customer.widget.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 
 class AddMeasure extends StatefulWidget {
@@ -32,17 +34,20 @@ class AddMeasure extends StatefulWidget {
 }
 
 class _AddMeasureState extends State<AddMeasure> {
+  bool enableAddNewCustomer = false;
   List<String> typeTenues = [
     "Robe",
     "Chemise",
-    "Pantalon",
-    "Culotte",
-    "Complet",
+    "Pantalon ou Culotte",
+    "Jupe",
+    "Complet Homme",
+    "Complet Femme"
   ];
   List<Map<String, dynamic>> fields = [];
   int _currentStep = 0;
   Measurement measurement = Measurement();
 
+  final customerCtrl = TextEditingController();
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
   final totalPriceCtrl = TextEditingController();
@@ -227,22 +232,69 @@ class _AddMeasureState extends State<AddMeasure> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // const SizedBox(height: 16),
-          CustomTextField(
-            hint: "Nom du client",
-            keyboardType: TextInputType.text,
-            controller: lastNameCtrl,
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: SelectCustomer(
+                  onPressed: (selectedCustomer) {
+                    measurement.customer = selectedCustomer;
+                    log("${measurement.customer?.lastName}");
+                  },
+                ),
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(
+                    () {
+                      enableAddNewCustomer = !enableAddNewCustomer;
+                    },
+                  );
+                },
+                child: Container(
+                  height: 55,
+                  width: 55,
+                  decoration: BoxDecoration(
+                    color:
+                        !enableAddNewCustomer ? primaryColor : secondaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      !enableAddNewCustomer ? Icons.add : Icons.remove,
+                      color: kWhite,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          CustomTextField(
-            hint: "Prénom du client",
-            keyboardType: TextInputType.text,
-            controller: firstNameCtrl,
-          ),
-          CustomTextField(
-            hint: "Téléphone du client",
-            keyboardType: TextInputType.phone,
-            controller: phoneCtrl,
-          ),
+          const SizedBox(height: 16),
+          enableAddNewCustomer
+              ? Column(
+                  children: [
+                    CustomTextField(
+                      hint: "Nom du client",
+                      keyboardType: TextInputType.text,
+                      controller: lastNameCtrl,
+                    ),
+                    CustomTextField(
+                      hint: "Prénom du client",
+                      keyboardType: TextInputType.text,
+                      controller: firstNameCtrl,
+                    ),
+                    CustomTextField(
+                      hint: "Téléphone du client",
+                      keyboardType: TextInputType.phone,
+                      controller: phoneCtrl,
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -456,22 +508,34 @@ class _AddMeasureState extends State<AddMeasure> {
     String lastName = lastNameCtrl.text;
     String phoneNumber = phoneCtrl.text;
 
-    if (lastName == "") {
+    if (enableAddNewCustomer) {
+      if (lastName == "") {
+        Toast.showFlutterToast(
+          context,
+          "Le nom du client est obligatoire !",
+          "error",
+        );
+      } else if (firstName == "") {
+        Toast.showFlutterToast(
+          context,
+          "Le prénom du client est obligatoire !",
+          "error",
+        );
+      } else {
+        measurement.customer?.lastName = lastName;
+        measurement.customer?.firstName = firstName;
+        measurement.customer?.phoneNumber = phoneNumber;
+        setState(() {
+          _currentStep++;
+        });
+      }
+    } else if (measurement.customer?.id == '') {
       Toast.showFlutterToast(
         context,
-        "Le nom du client est obligatoire !",
-        "error",
-      );
-    } else if (firstName == "") {
-      Toast.showFlutterToast(
-        context,
-        "Le prénom du client est obligatoire !",
+        "Aucun client sélectionné !",
         "error",
       );
     } else {
-      measurement.customer?.lastName = lastName;
-      measurement.customer?.firstName = firstName;
-      measurement.customer?.phoneNumber = phoneNumber;
       setState(() {
         _currentStep++;
       });

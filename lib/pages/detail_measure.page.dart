@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import 'package:tailor_book/config/amount_formater.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/models/measurement.model.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
+import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 import 'package:tailor_book/widgets/shared/measure_item_infos.widget.dart';
 
 class DetailMeasurePage extends StatelessWidget {
@@ -163,9 +165,11 @@ class DetailMeasurePage extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                    child: Image.network(
-                      measurement.photoModelUrl!,
-                      height: 256,
+                    child: CachedNetworkImage(
+                      imageUrl: measurement.photoModelUrl!,
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return const LoadingSpinner();
+                      },
                     ),
                   )
                 : const MeasureItemInfos(
@@ -193,9 +197,11 @@ class DetailMeasurePage extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                    child: Image.network(
-                      measurement.photoTissuUrl!,
-                      height: 256,
+                    child: CachedNetworkImage(
+                      imageUrl: measurement.photoTissuUrl!,
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return const LoadingSpinner();
+                      },
                     ),
                   )
                 : const MeasureItemInfos(

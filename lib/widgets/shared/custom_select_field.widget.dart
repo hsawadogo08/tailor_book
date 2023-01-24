@@ -70,11 +70,13 @@ class _CustomSelectFieldState extends State<CustomSelectField> {
         choiceItems: options,
         selectedValue: selectedValue,
         modalType: S2ModalType.popupDialog,
-        onChange: (state) => setState(() {
-          selectedValue = state.value;
-          controller.text = selectedValue;
-          super.widget.function.call();
-        }),
+        onChange: (state) => setState(
+          () {
+            selectedValue = state.value;
+            controller.text = selectedValue;
+            super.widget.function.call();
+          },
+        ),
         choiceStyle: const S2ChoiceStyle(
           titleStyle: TextStyle(
             color: primaryColor,

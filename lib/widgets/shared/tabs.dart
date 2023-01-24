@@ -15,7 +15,7 @@ class Tabs extends StatefulWidget {
 }
 
 class _TabsState extends State<Tabs> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -76,33 +76,41 @@ class _TabsState extends State<Tabs> {
           items: <TabItem>[
             TabItem(
               icon: Icon(
-                Icons.home,
+                FontAwesomeIcons.folderOpen,
                 size: _selectedIndex == 0 ? 35 : 25,
                 color: _selectedIndex == 0 ? primaryColor : kWhite,
-              ),
-              title: 'Accueil',
-            ),
-            TabItem(
-              icon: Icon(
-                FontAwesomeIcons.folderOpen,
-                size: _selectedIndex == 1 ? 35 : 25,
-                color: _selectedIndex == 1 ? primaryColor : kWhite,
               ),
               title: 'Mesures',
             ),
             TabItem(
               icon: Icon(
                 FontAwesomeIcons.peopleGroup,
-                size: _selectedIndex == 2 ? 35 : 25,
-                color: _selectedIndex == 2 ? primaryColor : kWhite,
+                size: _selectedIndex == 1 ? 35 : 25,
+                color: _selectedIndex == 1 ? primaryColor : kWhite,
               ),
               title: 'Clients',
             ),
             TabItem(
               icon: Icon(
-                FontAwesomeIcons.userTie,
+                Icons.home,
+                size: _selectedIndex == 2 ? 35 : 25,
+                color: _selectedIndex == 2 ? primaryColor : kWhite,
+              ),
+              title: 'Accueil',
+            ),
+            TabItem(
+              icon: Icon(
+                FontAwesomeIcons.peopleCarryBox,
                 size: _selectedIndex == 3 ? 35 : 25,
                 color: _selectedIndex == 3 ? primaryColor : kWhite,
+              ),
+              title: 'Personnels',
+            ),
+            TabItem(
+              icon: Icon(
+                FontAwesomeIcons.userTie,
+                size: _selectedIndex == 4 ? 35 : 25,
+                color: _selectedIndex == 4 ? primaryColor : kWhite,
               ),
               title: 'Profil',
             ),

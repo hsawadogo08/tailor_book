@@ -17,7 +17,6 @@ class CustomerService {
   static Future<String> save(Customer customer) async {
     String userUID =
         await SharedPrefConfig.getStringData(SharePrefKeys.JWT_TOKEN);
-    log("Customer ==> $userUID");
     if (userUID == "") {
       throw Exception("Le compte est introuvable !");
     }
