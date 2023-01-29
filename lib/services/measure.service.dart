@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tailor_book/models/measurement.model.dart';
+import 'package:tailor_book/models/personnel.model.dart';
 import 'package:tailor_book/services/customer.service.dart';
 import 'package:tailor_book/services/photo.service.dart';
 import 'package:tailor_book/services/sharedPrefConfig.dart';
@@ -21,7 +22,7 @@ class MeasureService {
         String? photoModelURL =
             await PhotoService.savePhoto(measurement.photoModel!, "models");
         measurement.photoModelUrl = photoModelURL;
-      } on Exception catch (_, e) {
+      } on Exception catch (_) {
         throw Exception(
           "Une erreur est survenue lors de l'enregistrement de la photo du model !",
         );
@@ -33,7 +34,7 @@ class MeasureService {
         String? photoTissuUrl =
             await PhotoService.savePhoto(measurement.photoTissu!, "tissus");
         measurement.photoTissuUrl = photoTissuUrl;
-      } on Exception catch (_, e) {
+      } on Exception catch (_) {
         throw Exception(
           "Une erreur est survenue lors de l'enregistrement de la photo du model !",
         );
@@ -59,15 +60,29 @@ class MeasureService {
     }
     return await measures
         .where("userUID", isEqualTo: userUID)
+        .where("deleted", isEqualTo: false)
         .orderBy('createdDate', descending: true)
         .get();
   }
 
-  static Future<void> update(String measureId, String status) async {
+  static Future<void> updateStatus(String measureId, String status) async {
     return await measures.doc(measureId).update({'status': status});
   }
 
-  static Future<void> delete(String measureId) async {
-    return await measures.doc(measureId).delete();
+  static Future<void> delete(Measurement measurement) async {
+    await CustomerService.updateCustomerPointFidelity(measurement.customerId!);
+    return await measures.doc(measurement.id).update({'deleted': true});
+  }
+
+  static Future<void> doLinkToPersonnal(
+      String measureId, Personnel personnel) async {
+    return await measures.doc(measureId).update(
+      {
+        'couturierId': personnel.id,
+        'couturierName':
+            "${personnel.lastName} ${personnel.firstName} - ${personnel.phoneNumber}",
+        'linkedDate': DateTime.now(),
+      },
+    );
   }
 }

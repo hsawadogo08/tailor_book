@@ -1,30 +1,28 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tailor_book/bloc/measure.bloc.dart';
+import 'package:tailor_book/bloc/personnel.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
-import 'package:tailor_book/pages/add_measure.page.dart';
-import 'package:tailor_book/pages/detail_measure.page.dart';
-import 'package:tailor_book/widgets/measure/measure_item.widget.dart';
+import 'package:tailor_book/pages/personnels/add_personnel.page.dart';
+import 'package:tailor_book/pages/personnels/detail_personnel.page.dart';
+import 'package:tailor_book/widgets/personnel/personnel_item.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_search_text_field.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 
-class MeasurePage extends StatefulWidget {
-  const MeasurePage({super.key});
+class PersonnelPage extends StatefulWidget {
+  const PersonnelPage({super.key});
 
   @override
-  State<MeasurePage> createState() => _MeasurePageState();
+  State<PersonnelPage> createState() => _PersonnelPageState();
 }
 
-class _MeasurePageState extends State<MeasurePage> {
+class _PersonnelPageState extends State<PersonnelPage> {
   @override
   void initState() {
     super.initState();
-    context.read<MeasureBloc>().add(SearchMeasuresEvent());
+    context.read<PersonnelBloc>().add(SearchPersonnelEvent());
   }
 
   @override
@@ -39,21 +37,21 @@ class _MeasurePageState extends State<MeasurePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           MaterialPageRoute route = MaterialPageRoute(
-            builder: (context) {
-              return const AddMeasure();
-            },
             fullscreenDialog: true,
+            builder: (context) {
+              return const AddPersonnelPage();
+            },
           );
-          Navigator.push(context, route).then(
-            (value) => context.read<MeasureBloc>().add(
-                  SearchMeasuresEvent(),
-                ),
-          );
+          Navigator.push(context, route).then((value) {
+            if (value == true) {
+              context.read<PersonnelBloc>().add(SearchPersonnelEvent());
+            }
+          });
         },
         backgroundColor: secondaryColor,
-        tooltip: 'Nouvelle mesure',
+        tooltip: 'Nouveau personnel',
         child: const Icon(
-          Icons.add,
+          Icons.person_add,
           size: 35,
         ),
       ),
@@ -76,7 +74,7 @@ class _MeasurePageState extends State<MeasurePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Mes Mesures",
+                    "Mon Personnel",
                     style: GoogleFonts.exo2(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -91,45 +89,51 @@ class _MeasurePageState extends State<MeasurePage> {
               ),
             ),
             Expanded(
-              child: BlocBuilder<MeasureBloc, MeasureStates>(
+              child: BlocBuilder<PersonnelBloc, PersonnelStates>(
                 builder: (context, state) {
-                  if (state is MeasureLoadingState) {
+                  if (state is PersonnelLoadingState) {
                     return const LoadingSpinner();
-                  } else if (state is MeasureErrorState) {
+                  } else if (state is PersonnelErrorState) {
                     return errorSection(state.errorMessage, context);
-                  } else if (state is SearchMeasureSuccessState) {
-                    if (state.measures.isEmpty) {
+                  } else if (state is SearchPersonnelSuccessState) {
+                    if (state.personnels.isEmpty) {
                       return emptySection(
-                        "Vous n'avez pas enregistré une mesure !",
+                        "Vous n'avez pas enregistré un personnel !",
                       );
                     }
 
                     return LazyLoadScrollView(
                       onEndOfPage: () {},
                       child: ListView.builder(
-                        itemCount: state.measures.length,
-                        itemBuilder: (context, index) {
+                        itemCount: state.personnels.length,
+                        itemBuilder: (builderContext, index) {
                           return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              bool? response = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return DetailMeasurePage(
-                                        measurement: state.measures[index]);
+                                    return DetailPersonnelPage(
+                                      personnel: state.personnels[index],
+                                    );
                                   },
                                 ),
                               );
+                              if (response == true) {
+                                // ignore: use_build_context_synchronously
+                                context
+                                    .read<PersonnelBloc>()
+                                    .add(SearchPersonnelEvent());
+                              }
                             },
-                            child: MeasureItem(
-                              measurement: state.measures[index],
+                            child: PersonnelItem(
+                              personnel: state.personnels[index],
                             ),
                           );
                         },
                       ),
                     );
                   } else {
-                    log("NULLL");
                     return Container();
                   }
                 },
@@ -176,7 +180,7 @@ class _MeasurePageState extends State<MeasurePage> {
             buttonColor: secondaryColor,
             borderColor: secondaryColor,
             buttonFonction: () {
-              context.read<MeasureBloc>().add(SearchMeasuresEvent());
+              context.read<PersonnelBloc>().add(SearchPersonnelEvent());
             },
           ),
         ],

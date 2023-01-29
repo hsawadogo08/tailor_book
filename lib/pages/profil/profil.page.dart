@@ -4,6 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/bloc/user.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
+import 'package:tailor_book/pages/profil/update_password.page.dart';
+import 'package:tailor_book/pages/profil/update_profil.page.dart';
+import 'package:tailor_book/pages/utilities/a_propos.page.dart';
 import 'package:tailor_book/widgets/shared/parameter.dart';
 
 class ProfilPage extends StatelessWidget {
@@ -43,7 +46,16 @@ class ProfilPage extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
                         heroTag: null,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const UpdateProfilPage();
+                              },
+                            ),
+                          );
+                        },
                         backgroundColor: secondaryColor,
                         elevation: 0,
                         materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -110,7 +122,16 @@ class ProfilPage extends StatelessWidget {
                   icon: Icons.lock,
                   title: 'Modifier le mot de passe',
                   subTitle: '',
-                  function: () {},
+                  function: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const UpdatePasswordPage();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 Parameter(
                   icon: Icons.share,
@@ -124,7 +145,16 @@ class ProfilPage extends StatelessWidget {
                   icon: Icons.info,
                   title: 'A propos',
                   subTitle: 'A propos de l\'application',
-                  function: () {},
+                  function: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const AProposPage();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 Parameter(
                   icon: Icons.logout,

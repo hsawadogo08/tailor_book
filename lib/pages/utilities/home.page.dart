@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +7,8 @@ import 'package:tailor_book/bloc/measure.bloc.dart';
 import 'package:tailor_book/bloc/user.bloc.dart';
 import 'package:tailor_book/config/amount_formater.dart';
 import 'package:tailor_book/constants/color.dart';
-import 'package:tailor_book/pages/add_measure.page.dart';
-import 'package:tailor_book/pages/detail_measure.page.dart';
+import 'package:tailor_book/pages/measures/add_measure.page.dart';
+import 'package:tailor_book/pages/measures/detail_measure.page.dart';
 import 'package:tailor_book/widgets/home/home_balance_item.widget.dart';
 import 'package:tailor_book/widgets/measure/measure_item.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
@@ -142,9 +141,7 @@ class _HomePageState extends State<HomePage> {
               height: 16,
             ),
             BlocConsumer<MeasureAmountBloc, MeasureStates>(
-              listener: (context, state) {
-                log("MeasureBloc $state");
-              },
+              listener: (context, state) {},
               builder: (context, state) {
                 if (state is MeasureLoadingState) {
                   return const LoadingSpinner();
@@ -204,14 +201,12 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: BlocConsumer<MeasureBloc, MeasureStates>(
-                listener: (context, state) {
-                  log("MeasureBloc List $state");
-                },
-                builder: (context, state) {
+                listener: (context, state) {},
+                builder: (builderContext, state) {
                   if (state is MeasureLoadingState) {
                     return const LoadingSpinner();
                   } else if (state is MeasureErrorState) {
-                    return errorSection(state.errorMessage, context);
+                    return errorSection(state.errorMessage, builderContext);
                   } else if (state is SearchMeasureSuccessState) {
                     if (state.measures.isEmpty) {
                       return emptySection(
@@ -223,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                       onEndOfPage: () {},
                       child: ListView.builder(
                         itemCount: state.measures.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (itemContext, index) {
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -234,7 +229,11 @@ class _HomePageState extends State<HomePage> {
                                         measurement: state.measures[index]);
                                   },
                                 ),
-                              );
+                              ).then((value) {
+                                context
+                                    .read<MeasureBloc>()
+                                    .add(SearchMeasuresEvent());
+                              });
                             },
                             child: MeasureItem(
                               measurement: state.measures[index],

@@ -21,6 +21,14 @@ class CustomerService {
       throw Exception("Le compte est introuvable !");
     }
     customer.userUID = userUID;
+    if (customer.id != '') {
+      await customers.doc(customer.id).update(
+        {
+          'pointFidelite': customer.pointFidelite! + 1,
+        },
+      );
+      return customer.id!;
+    }
     DocumentReference savedDoc = await customers.add(customer.toMap());
     return savedDoc.id;
   }
@@ -33,6 +41,23 @@ class CustomerService {
     if (userUID == "") {
       throw Exception("Le compte est introuvable !");
     }
-    return await customers.where("userUID", isEqualTo: userUID).get();
+    return await customers
+        .where("userUID", isEqualTo: userUID)
+        .orderBy('createdDate', descending: true)
+        .get();
+  }
+
+  static Future<void> updateCustomerPointFidelity(
+      String customerId) async {
+    DocumentSnapshot<Object?> response = await customers.doc(customerId).get();
+    Customer customer = Customer.fromDocumentSnapshot(response);
+
+    if (customer.pointFidelite != null) {
+      return await customers.doc(customerId).update(
+        {
+          'pointFidelite': customer.pointFidelite! - 1,
+        },
+      );
+    }
   }
 }

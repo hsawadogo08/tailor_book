@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/bloc/customer.bloc.dart';
 import 'package:tailor_book/bloc/dynamic_form.bloc.dart';
 import 'package:tailor_book/bloc/measure.bloc.dart';
+import 'package:tailor_book/bloc/personnel.bloc.dart';
 import 'package:tailor_book/bloc/signin.bloc.dart';
 import 'package:tailor_book/bloc/signup.bloc.dart';
 import 'package:tailor_book/bloc/user.bloc.dart';
 import 'package:tailor_book/firebase_options.dart';
-import 'package:tailor_book/pages/signin.page.dart';
-import 'package:tailor_book/pages/slide.page.dart';
+import 'package:tailor_book/pages/profil/signin.page.dart';
+import 'package:tailor_book/pages/utilities/slide.page.dart';
 import 'package:tailor_book/services/user.service.dart';
 import 'package:tailor_book/themes/custom.theme.dart';
 
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => MeasureAmountBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PersonnelBloc(),
         ),
       ],
       child: MaterialApp(

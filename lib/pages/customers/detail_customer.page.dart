@@ -19,7 +19,7 @@ class DetailCustomerPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Détail d'une mesure",
+          "Détail d'un client",
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.w500,
             fontSize: 18,

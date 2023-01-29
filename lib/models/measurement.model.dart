@@ -21,6 +21,10 @@ class Measurement {
   String? customerName;
   String? userUID;
   String? status;
+  String? couturierId;
+  String? couturierName;
+  DateTime? linkedDate;
+  bool? deleted;
 
   Measurement({
     this.id = "",
@@ -35,6 +39,9 @@ class Measurement {
     this.userUID = "",
     this.customerName = '',
     this.status = '',
+    this.couturierId = '',
+    this.couturierName = '',
+    this.deleted = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -53,6 +60,10 @@ class Measurement {
           "${customer?.lastName} ${customer?.firstName} - ${customer?.phoneNumber}",
       "userUID": userUID,
       "status": StatusWork.PENDING.name,
+      "couturierId": couturierId,
+      "couturierName": couturierName,
+      "linkedDate": DateTime.now(),
+      "deleted": deleted,
     };
   }
 
@@ -60,6 +71,8 @@ class Measurement {
     Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
     Timestamp docCreatedDate = data['createdDate'];
     Timestamp docRemovedDate = data['removedDate'];
+    Timestamp doclinkedDate =
+        data['linkedDate'] ?? Timestamp.fromDate(DateTime.now());
 
     id = doc.id;
     model = data["model"];
@@ -77,5 +90,10 @@ class Measurement {
     customerName = data["customerName"];
     userUID = data["userUID"];
     status = data["status"] ?? StatusWork.PENDING.name;
+    couturierId = data["couturierId"];
+    couturierName = data["couturierName"];
+    linkedDate = DateTime.fromMillisecondsSinceEpoch(
+        doclinkedDate.millisecondsSinceEpoch);
+    deleted = data["deleted"] ?? false;
   }
 }

@@ -9,13 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:select_dialog/select_dialog.dart';
 import 'package:tailor_book/bloc/dynamic_form.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/models/customer.model.dart';
 import 'package:tailor_book/models/measurement.model.dart';
-import 'package:tailor_book/pages/add_photo.page.dart';
-import 'package:tailor_book/pages/confirm_add_measure.page.dart';
+import 'package:tailor_book/pages/measures/add_photo.page.dart';
+import 'package:tailor_book/pages/measures/confirm_add_measure.page.dart';
 import 'package:tailor_book/widgets/shared/add_photo_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_calendar.widget.dart';
@@ -239,7 +238,7 @@ class _AddMeasureState extends State<AddMeasure> {
                 child: SelectCustomer(
                   onPressed: (selectedCustomer) {
                     measurement.customer = selectedCustomer;
-                    log("${measurement.customer?.lastName}");
+                    log("${measurement.customer?.id}");
                   },
                 ),
               ),

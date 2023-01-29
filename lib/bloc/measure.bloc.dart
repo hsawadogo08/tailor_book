@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/models/measurement.model.dart';
+import 'package:tailor_book/models/personnel.model.dart';
 import 'package:tailor_book/services/measure.service.dart';
 
 abstract class MeasureEvent {}
@@ -26,8 +27,40 @@ class SearchMeasuresEvent extends MeasureEvent {
 
 class MeasureAmoutEvent extends MeasureEvent {}
 
+class UpdateMeasurementStatusEvent extends MeasureEvent {
+  final String measureId;
+  final String status;
+  UpdateMeasurementStatusEvent({
+    required this.measureId,
+    required this.status,
+  });
+}
+
+class DeleteMeasurement extends MeasureEvent {
+  final Measurement measurement;
+  DeleteMeasurement({
+    required this.measurement,
+  });
+}
+
+class AffectationMeasurementEvent extends MeasureEvent {
+  final String measureId;
+  final Personnel personnel;
+  AffectationMeasurementEvent({
+    required this.measureId,
+    required this.personnel,
+  });
+}
+
 // States
 abstract class MeasureStates {}
+
+class MeasureSuccessState extends MeasureStates {
+  final String successMessage;
+  MeasureSuccessState({
+    required this.successMessage,
+  });
+}
 
 class SaveMeasureSuccessState extends MeasureStates {
   final String successMessage;
@@ -109,6 +142,77 @@ class MeasureBloc extends Bloc<MeasureEvent, MeasureStates> {
           MeasureErrorState(
             errorMessage:
                 "Une erreur est survenue lors de la récupération des mésures !",
+          ),
+        );
+      }
+    });
+
+    on((UpdateMeasurementStatusEvent event, emit) async {
+      if (event.measureId == '') {
+        emit(
+          MeasureErrorState(errorMessage: "La mesure est introuvable !"),
+        );
+      } else if (event.status == '') {
+        emit(
+          MeasureErrorState(errorMessage: "Le status est introuvable !"),
+        );
+      } else {
+        emit(MeasureLoadingState());
+        try {
+          await MeasureService.updateStatus(event.measureId, event.status);
+          emit(
+            MeasureSuccessState(
+              successMessage: "Le statut a été mis à jour avec succès !",
+            ),
+          );
+        } on Exception catch (_, e) {
+          log("Update Error ==> $e");
+          emit(
+            MeasureErrorState(
+              errorMessage:
+                  "Une erreur est survenue lors du changement de statut de la mesure !",
+            ),
+          );
+        }
+      }
+    });
+
+    on((DeleteMeasurement event, emit) async {
+      emit(MeasureLoadingState());
+      try {
+        await MeasureService.delete(event.measurement);
+        emit(
+          MeasureSuccessState(
+            successMessage: "La mesure a été supprimée avec succès !",
+          ),
+        );
+      } on Exception catch (_, e) {
+        log("Delete Error ==> $e");
+        emit(
+          MeasureErrorState(
+            errorMessage:
+                "Une erreur est survenue lors de la suppression de la mesure !",
+          ),
+        );
+      }
+    });
+
+    on((AffectationMeasurementEvent event, emit) async {
+      emit(MeasureLoadingState());
+      try {
+        await MeasureService.doLinkToPersonnal(
+            event.measureId, event.personnel);
+        emit(
+          MeasureSuccessState(
+            successMessage: "La mesure a été affectée avec succès !",
+          ),
+        );
+      } on Exception catch (_, e) {
+        log("Affectation Error ==> $e");
+        emit(
+          MeasureErrorState(
+            errorMessage:
+                "Une erreur est survenue lors de la suppression de la mesure !",
           ),
         );
       }

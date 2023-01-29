@@ -89,7 +89,7 @@ class MeasureItem extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "Créée le ${DateFormat("dd/MM/yyyy à HH:mm:ss").format(measurement.createdDate!)}",
+                  "Couturier : ${measurement.couturierName == '' ? 'Non Affectée' : measurement.couturierName}",
                   style: GoogleFonts.montserrat(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

@@ -66,6 +66,7 @@ dependencies:
   flutter_onboard: ^2.0.0
   cached_network_image: ^3.2.1
   select_dialog: ^2.0.0
+  accordion: ^2.5.1
 
 dev_dependencies:
   flutter_test:
