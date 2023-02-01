@@ -113,7 +113,7 @@ class _SignupPageState extends State<SignupPage> {
           textAlign: TextAlign.center,
           "Inscription",
           style: GoogleFonts.exo2(
-            fontSize: 28,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: kWhite,
           ),
@@ -127,7 +127,6 @@ class _SignupPageState extends State<SignupPage> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: CustomButton(
                   buttonText: "Envoyer le SMS",
-                  buttonSize: 16,
                   buttonColor: primaryColor,
                   btnTextColor: kWhite,
                   buttonFonction: onVerifyPhoneNumber,
@@ -162,8 +161,7 @@ class _SignupPageState extends State<SignupPage> {
                       textAlign: TextAlign.center,
                       "Un code de validation sera envoyé à votre numéro de téléphone !",
                       style: GoogleFonts.exo2(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                         color: primaryColor,
                       ),
                     ),

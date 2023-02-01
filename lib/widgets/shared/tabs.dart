@@ -77,7 +77,7 @@ class _TabsState extends State<Tabs> {
             TabItem(
               icon: Icon(
                 FontAwesomeIcons.folderOpen,
-                size: _selectedIndex == 0 ? 35 : 25,
+                size: _selectedIndex == 0 ? 28 : 24,
                 color: _selectedIndex == 0 ? primaryColor : kWhite,
               ),
               title: 'Mesures',
@@ -85,7 +85,7 @@ class _TabsState extends State<Tabs> {
             TabItem(
               icon: Icon(
                 FontAwesomeIcons.peopleGroup,
-                size: _selectedIndex == 1 ? 35 : 25,
+                size: _selectedIndex == 1 ? 28 : 24,
                 color: _selectedIndex == 1 ? primaryColor : kWhite,
               ),
               title: 'Clients',
@@ -93,7 +93,7 @@ class _TabsState extends State<Tabs> {
             TabItem(
               icon: Icon(
                 Icons.home,
-                size: _selectedIndex == 2 ? 35 : 25,
+                size: _selectedIndex == 2 ? 28 : 24,
                 color: _selectedIndex == 2 ? primaryColor : kWhite,
               ),
               title: 'Accueil',
@@ -101,7 +101,7 @@ class _TabsState extends State<Tabs> {
             TabItem(
               icon: Icon(
                 FontAwesomeIcons.peopleCarryBox,
-                size: _selectedIndex == 3 ? 35 : 25,
+                size: _selectedIndex == 3 ? 28 : 24,
                 color: _selectedIndex == 3 ? primaryColor : kWhite,
               ),
               title: 'Personnels',
@@ -109,7 +109,7 @@ class _TabsState extends State<Tabs> {
             TabItem(
               icon: Icon(
                 FontAwesomeIcons.userTie,
-                size: _selectedIndex == 4 ? 35 : 25,
+                size: _selectedIndex == 4 ? 28 : 24,
                 color: _selectedIndex == 4 ? primaryColor : kWhite,
               ),
               title: 'Profil',

@@ -12,7 +12,6 @@ import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 import 'package:tailor_book/widgets/shared/slidepage.dart';
 import 'package:tailor_book/widgets/shared/tabs.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
-import 'package:tailor_book/widgets/signin/forgot_password.widget.dart';
 import 'package:tailor_book/widgets/signin/not_signup.widget.dart';
 
 class SigninPage extends StatelessWidget {
@@ -75,7 +74,7 @@ class SigninPage extends StatelessWidget {
                       delay: Duration(milliseconds: delayedDuration * 3),
                       child: CustomPhoneNumberInput(
                         icon: Icons.add,
-                        hint: 'Numéro de téléphone du client',
+                        hint: 'Numéro de téléphone',
                         normalPhoneNumberController:
                             normalPhoneNumberController,
                         formatPhoneNumberController:
@@ -95,13 +94,6 @@ class SigninPage extends StatelessWidget {
                         controller: pwdController,
                         keyboardType: TextInputType.text,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    DelayedDisplay(
-                      delay: Duration(milliseconds: delayedDuration * 5),
-                      child: const ForgotPassword(),
                     ),
                     const SizedBox(
                       height: 16,

@@ -32,14 +32,14 @@ class SlidePage extends StatelessWidget {
         onBoardData: onBoardData,
         titleStyles: GoogleFonts.montserrat(
           color: secondaryColor,
-          fontSize: 18,
-          fontWeight: FontWeight.w800,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
           letterSpacing: 0.15,
         ),
         descriptionStyles: GoogleFonts.montserrat(
-          fontSize: 16,
+          fontSize: 14,
           color: primaryColor,
-          fontWeight: FontWeight.w500,
+          // fontWeight: FontWeight.w500,
         ),
         pageIndicatorStyle: const PageIndicatorStyle(
           width: 100,
@@ -58,7 +58,7 @@ class SlidePage extends StatelessWidget {
                       "Ignorer",
                       style: GoogleFonts.montserrat(
                         color: secondaryColor,
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -72,9 +72,9 @@ class SlidePage extends StatelessWidget {
             return CustomButton(
               buttonText: state.isLastPage ? "Commencer" : "Suivant",
               btnTextColor: kWhite,
-              buttonColor: !state.isLastPage ? secondaryColor : primaryColor,
-              borderColor: !state.isLastPage ? secondaryColor : primaryColor,
-              buttonSize: 16,
+              buttonColor: primaryColor,
+              borderColor: primaryColor,
+              buttonSize: 14,
               buttonFonction: () => state.isLastPage
                   ? _onGoToWelcomePage(context)
                   : _onNextTap(state),

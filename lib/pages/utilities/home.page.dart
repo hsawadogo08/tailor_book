@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -203,7 +204,9 @@ class _HomePageState extends State<HomePage> {
               child: BlocConsumer<MeasureBloc, MeasureStates>(
                 listener: (context, state) {},
                 builder: (builderContext, state) {
+                  log("Home State ==> $state");
                   if (state is MeasureLoadingState) {
+                    log("===========Start MeasureLoadingState=========");
                     return const LoadingSpinner();
                   } else if (state is MeasureErrorState) {
                     return errorSection(state.errorMessage, builderContext);
@@ -233,6 +236,9 @@ class _HomePageState extends State<HomePage> {
                                 context
                                     .read<MeasureBloc>()
                                     .add(SearchMeasuresEvent());
+                                context
+                                    .read<MeasureAmountBloc>()
+                                    .add(MeasureAmoutEvent());
                               });
                             },
                             child: MeasureItem(

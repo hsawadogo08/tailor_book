@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, unused_local_variable
 
 import 'dart:developer';
 import 'dart:io';
@@ -45,6 +45,7 @@ class _AddMeasureState extends State<AddMeasure> {
   List<Map<String, dynamic>> fields = [];
   int _currentStep = 0;
   Measurement measurement = Measurement();
+  String selectedClient = "Sélectionner un client";
 
   final customerCtrl = TextEditingController();
   final firstNameCtrl = TextEditingController();
@@ -236,9 +237,9 @@ class _AddMeasureState extends State<AddMeasure> {
             children: [
               Expanded(
                 child: SelectCustomer(
+                  selectedClient: selectedClient,
                   onPressed: (selectedCustomer) {
                     measurement.customer = selectedCustomer;
-                    log("${measurement.customer?.id}");
                   },
                 ),
               ),
@@ -250,6 +251,10 @@ class _AddMeasureState extends State<AddMeasure> {
                   setState(
                     () {
                       enableAddNewCustomer = !enableAddNewCustomer;
+                      selectedClient = enableAddNewCustomer == true
+                          ? "${measurement.customer?.lastName} ${measurement.customer?.firstName} - ${measurement.customer?.phoneNumber}"
+                          : "Sélectionner un client";
+                      log(selectedClient);
                     },
                   );
                 },
@@ -438,7 +443,7 @@ class _AddMeasureState extends State<AddMeasure> {
         ),
         measurement.photoModel != null
             ? Container(
-                height: 256,
+                // height: 256,
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                 decoration: BoxDecoration(
                   color: kWhite,
@@ -475,7 +480,7 @@ class _AddMeasureState extends State<AddMeasure> {
         ),
         measurement.photoTissu != null
             ? Container(
-                height: 256,
+                // height: 256,
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                 decoration: BoxDecoration(
                   color: kWhite,
@@ -521,6 +526,7 @@ class _AddMeasureState extends State<AddMeasure> {
           "error",
         );
       } else {
+        measurement.customer?.id = "";
         measurement.customer?.lastName = lastName;
         measurement.customer?.firstName = firstName;
         measurement.customer?.phoneNumber = phoneNumber;

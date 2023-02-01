@@ -144,8 +144,8 @@ class ConfirmAddMeasure extends StatelessWidget {
             ),
             measurement.photoModel != null
                 ? Container(
-                    height: 256,
-                    width: double.infinity,
+                    // height: 256,
+                    // width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
                     decoration: BoxDecoration(
@@ -174,8 +174,8 @@ class ConfirmAddMeasure extends StatelessWidget {
             ),
             measurement.photoTissu != null
                 ? Container(
-                    height: 256,
-                    width: double.infinity,
+                    // height: 256,
+                    // width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
                     decoration: BoxDecoration(

@@ -86,7 +86,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
               controller: controller,
               keyboardType: keyboardType,
               style: GoogleFonts.montserrat(
-                fontSize: 20,
+                fontSize: 16,
                 color: primaryColor,
               ),
               onChanged: (value) {
@@ -120,7 +120,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
                       )
                     : null,
                 hintStyle: GoogleFonts.montserrat(
-                  fontSize: 14,
+                  fontSize: 12,
                   color: primaryColor,
                 ),
               ),

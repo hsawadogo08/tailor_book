@@ -105,8 +105,7 @@ class SignupCompletePage extends StatelessWidget {
                       textAlign: TextAlign.center,
                       "Veuillez completer les informations suivantes",
                       style: GoogleFonts.exo2(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                         color: primaryColor,
                       ),
                     ),

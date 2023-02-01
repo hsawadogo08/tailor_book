@@ -11,13 +11,18 @@ import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 
-class LinkCouturierPage extends StatelessWidget {
+class LinkCouturierPage extends StatefulWidget {
   final String measureId;
   const LinkCouturierPage({
     super.key,
     required this.measureId,
   });
 
+  @override
+  State<LinkCouturierPage> createState() => _LinkCouturierPageState();
+}
+
+class _LinkCouturierPageState extends State<LinkCouturierPage> {
   @override
   Widget build(BuildContext context) {
     Personnel selectedPersonnel = Personnel();
@@ -49,15 +54,21 @@ class LinkCouturierPage extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 75,
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        child: BlocBuilder<MeasureBloc, MeasureStates>(
-          builder: (builderContext, state) {
-            if (state is MeasureLoadingState) {
-              return const LoadingSpinner();
-            } else if (state is MeasureErrorState) {
-              showToast(builderContext, state.errorMessage, "error");
-            } else if (state is MeasureSuccessState) {
-              showToast(builderContext, state.successMessage, "success");
+        child: BlocConsumer<MeasureBloc, MeasureStates>(
+          listener: (context, state) {
+            log("listener STATE ==> $state");
+            if (state is MeasureLinkErrorState) {
+              showToast(context, state.errorMessage, "error");
+            } else if (state is MeasureLinkSuccessState) {
+              showToast(context, state.successMessage, "success");
               onGoBack(context, true);
+            }
+          },
+          builder: (builderContext, state) {
+            log("builder STATE ==> $state");
+            if (state is MeasureLinkLoadingState) {
+              log("Start MeasureLoadingState");
+              return const LoadingSpinner();
             }
             return CustomButton(
               buttonText: "Affecter",
@@ -66,19 +77,22 @@ class LinkCouturierPage extends StatelessWidget {
               btnTextColor: kWhite,
               buttonSize: 18,
               buttonFonction: () {
-                log("${selectedPersonnel.firstName}");
-                builderContext.read<MeasureBloc>().add(
-                      AffectationMeasurementEvent(
-                        measureId: measureId,
-                        personnel: selectedPersonnel,
-                      ),
-                    );
+                sendEvent(builderContext, selectedPersonnel);
               },
             );
           },
         ),
       ),
     );
+  }
+
+  void sendEvent(BuildContext builderContext, Personnel selectedPersonnel) {
+    context.read<MeasureBloc>().add(
+          AffectationMeasurementEvent(
+            measureId: widget.measureId,
+            personnel: selectedPersonnel,
+          ),
+        );
   }
 
   void showToast(BuildContext buildContext, String message, String type) {

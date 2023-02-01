@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,9 +8,11 @@ import 'package:tailor_book/services/customer.service.dart';
 
 class SelectCustomer extends StatefulWidget {
   final ValueSetter<Customer> onPressed;
+  final String selectedClient;
   const SelectCustomer({
     super.key,
     required this.onPressed,
+    this.selectedClient = "Sélectionner un client",
   });
 
   @override
@@ -23,6 +23,7 @@ class _SelectCustomerState extends State<SelectCustomer> {
   String selectedClient = "";
   Customer selectedCustomer = Customer();
   List<Customer> customers = [];
+  
 
   @override
   void initState() {
@@ -37,7 +38,6 @@ class _SelectCustomerState extends State<SelectCustomer> {
           (e) => Customer.fromDocumentSnapshot(e),
         )
         .toList();
-    log("$customers");
   }
 
   @override
@@ -58,9 +58,7 @@ class _SelectCustomerState extends State<SelectCustomer> {
           children: [
             Expanded(
               child: Text(
-                selectedClient == ""
-                    ? "Sélectionner un client"
-                    : selectedClient,
+                selectedClient == "" ? widget.selectedClient : selectedClient,
                 style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: primaryColor,
@@ -84,6 +82,18 @@ class _SelectCustomerState extends State<SelectCustomer> {
       context,
       label: "Mes Clients",
       selectedValue: selectedClient,
+      emptyBuilder: (context) {
+        return Center(
+          child: Text(
+            "Aucun client trouvé !",
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              color: primaryColor,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        );
+      },
       items: List.generate(
         customers.length,
         (index) =>
@@ -100,7 +110,6 @@ class _SelectCustomerState extends State<SelectCustomer> {
             }
           }
           widget.onPressed(selectedCustomer);
-          
         });
       },
       searchBoxDecoration: InputDecoration(

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/constants/color.dart';
@@ -30,66 +31,72 @@ class WelcomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const AppLogo(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        "Connectez-vous pour acceder à votre compte ou vous inscrire si vous n'avez pas de compte !",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor,
+                    SlideInDown(
+                      child: const AppLogo(),
+                    ),
+                    SlideInDown(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "Connectez-vous pour acceder à votre compte ou vous inscrire si vous n'avez pas de compte !",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.w600,
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: (height / 5) * 2,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomButton(
-                        buttonText: "Se connecter",
-                        btnTextColor: kWhite,
-                        buttonSize: 18,
-                        buttonFonction: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SigninPage();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      CustomButton(
-                        buttonText: "S'inscrire",
-                        buttonColor: secondaryColor,
-                        borderColor: secondaryColor,
-                        btnTextColor: kWhite,
-                        buttonSize: 18,
-                        buttonFonction: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SignupPage();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+              SlideInUp(
+                child: SizedBox(
+                  height: (height / 5) * 2,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomButton(
+                          buttonText: "Se connecter",
+                          btnTextColor: kWhite,
+                          buttonSize: 16,
+                          buttonFonction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SigninPage();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        CustomButton(
+                          buttonText: "S'inscrire",
+                          buttonColor: secondaryColor,
+                          borderColor: secondaryColor,
+                          btnTextColor: kWhite,
+                          buttonSize: 16,
+                          buttonFonction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SignupPage();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

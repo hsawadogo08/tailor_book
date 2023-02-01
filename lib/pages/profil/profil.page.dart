@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,8 +11,18 @@ import 'package:tailor_book/pages/profil/update_profil.page.dart';
 import 'package:tailor_book/pages/utilities/a_propos.page.dart';
 import 'package:tailor_book/widgets/shared/parameter.dart';
 
-class ProfilPage extends StatelessWidget {
+class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
+
+  @override
+  State<ProfilPage> createState() => _ProfilPageState();
+}
+
+class _ProfilPageState extends State<ProfilPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +66,11 @@ class ProfilPage extends StatelessWidget {
                                 return const UpdateProfilPage();
                               },
                             ),
-                          );
+                          ).then((value) {
+                            if (value == true) {
+                              context.read<UserBloc>().add(UserInfosEvent());
+                            }
+                          });
                         },
                         backgroundColor: secondaryColor,
                         elevation: 0,
@@ -77,7 +93,7 @@ class ProfilPage extends StatelessWidget {
                       Text(
                         "${state.user.lastName} ${state.user.firstName}",
                         style: GoogleFonts.montserrat(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: primaryColor,
                         ),
@@ -85,7 +101,7 @@ class ProfilPage extends StatelessWidget {
                       Text(
                         "${state.user.phoneNumber} ${state.user.email}",
                         style: GoogleFonts.montserrat(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: primaryColor,
                         ),
@@ -93,7 +109,7 @@ class ProfilPage extends StatelessWidget {
                       Text(
                         "Entreprise : ${state.user.companyName}",
                         style: GoogleFonts.montserrat(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: primaryColor,
                         ),
@@ -130,17 +146,21 @@ class ProfilPage extends StatelessWidget {
                           return const UpdatePasswordPage();
                         },
                       ),
-                    );
+                    ).then((value) {
+                      if (value == true) {
+                        context.read<UserBloc>().add(UserInfosEvent());
+                      }
+                    });
                   },
                 ),
-                Parameter(
-                  icon: Icons.share,
-                  title: 'Partager l\'application',
-                  subTitle: '',
-                  function: () {
-                    // Share.share('https://www.openburkina.bf/');
-                  },
-                ),
+                // Parameter(
+                //   icon: Icons.share,
+                //   title: 'Partager l\'application',
+                //   subTitle: '',
+                //   function: () {
+                //     // Share.share('https://www.openburkina.bf/');
+                //   },
+                // ),
                 Parameter(
                   icon: Icons.info,
                   title: 'A propos',

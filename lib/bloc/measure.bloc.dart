@@ -52,12 +52,21 @@ class AffectationMeasurementEvent extends MeasureEvent {
   });
 }
 
+class MeasureInitialEvent extends MeasureEvent {}
+
 // States
 abstract class MeasureStates {}
 
 class MeasureSuccessState extends MeasureStates {
   final String successMessage;
   MeasureSuccessState({
+    required this.successMessage,
+  });
+}
+
+class MeasureLinkSuccessState extends MeasureStates {
+  final String successMessage;
+  MeasureLinkSuccessState({
     required this.successMessage,
   });
 }
@@ -90,9 +99,18 @@ class MeasureErrorState extends MeasureStates {
   });
 }
 
+class MeasureLinkErrorState extends MeasureStates {
+  final String errorMessage;
+  MeasureLinkErrorState({
+    required this.errorMessage,
+  });
+}
+
 class MeasureInitialState extends MeasureStates {}
 
 class MeasureLoadingState extends MeasureStates {}
+
+class MeasureLinkLoadingState extends MeasureStates {}
 
 // Bloc
 class MeasureBloc extends Bloc<MeasureEvent, MeasureStates> {
@@ -198,24 +216,35 @@ class MeasureBloc extends Bloc<MeasureEvent, MeasureStates> {
     });
 
     on((AffectationMeasurementEvent event, emit) async {
-      emit(MeasureLoadingState());
-      try {
-        await MeasureService.doLinkToPersonnal(
-            event.measureId, event.personnel);
+      if (event.personnel.id == null || event.personnel.id == "") {
         emit(
-          MeasureSuccessState(
-            successMessage: "La mesure a été affectée avec succès !",
+          MeasureLinkErrorState(
+            errorMessage: "Veuillez choisir le personnel à affecter !",
           ),
         );
-      } on Exception catch (_, e) {
-        log("Affectation Error ==> $e");
-        emit(
-          MeasureErrorState(
-            errorMessage:
-                "Une erreur est survenue lors de la suppression de la mesure !",
-          ),
-        );
+      } else {
+        emit(MeasureLinkLoadingState());
+        try {
+          await MeasureService.doLinkToPersonnal(
+            event.measureId,
+            event.personnel,
+          );
+          emit(
+            MeasureLinkSuccessState(
+              successMessage: "La mesure a été affectée avec succès !",
+            ),
+          );
+        } on Exception catch (_, e) {
+          log("Affectation Error ==> $e");
+          emit(
+            MeasureLinkErrorState(
+              errorMessage:
+                  "Une erreur est survenue lors de la suppression de la mesure !",
+            ),
+          );
+        }
       }
+      // emit(MeasureInitialState());
     });
   }
 }

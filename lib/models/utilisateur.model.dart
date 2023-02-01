@@ -49,5 +49,6 @@ class Utilisateur {
     firstName = map["firstName"];
     phoneNumber = map["phoneNumber"];
     email = map["email"];
+    password = map["password"];
   }
 }

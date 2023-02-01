@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tailor_book/models/password.model.dart';
 import 'package:tailor_book/models/utilisateur.model.dart';
 import 'package:tailor_book/services/sharedPrefConfig.dart';
 import 'package:tailor_book/services/sharedPrefKeys.dart';
@@ -76,6 +77,36 @@ class UserService {
         await SharedPrefConfig.getStringData(SharePrefKeys.USER_INFOS);
     Map<String, dynamic> map = jsonStringToMap(currentUser);
     return Utilisateur.fromMap(map);
+  }
+
+  static Future<void> updateCurrentUserInfos(Utilisateur currentUser) async {
+    await SharedPrefConfig.saveStringData(
+      SharePrefKeys.USER_INFOS,
+      currentUser.toMap().toString(),
+    );
+
+    return await users.doc(currentUser.userUID).update(
+      {
+        "companyName": currentUser.companyName,
+        "lastName": currentUser.lastName,
+        "firstName": currentUser.firstName,
+        "email": currentUser.email,
+      },
+    );
+  }
+
+  static Future<void> updatePassword(
+      String password, Utilisateur currentUser) async {
+    currentUser.password = password;
+    await SharedPrefConfig.saveStringData(
+      SharePrefKeys.USER_INFOS,
+      currentUser.toMap().toString(),
+    );
+    return await users.doc(currentUser.userUID).update(
+      {
+        "password": password,
+      },
+    );
   }
 
   static Map<String, dynamic> jsonStringToMap(String data) {

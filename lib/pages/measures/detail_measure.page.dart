@@ -15,6 +15,7 @@ import 'package:tailor_book/widgets/shared/measure_item_infos.widget.dart';
 import 'package:accordion/accordion.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
+import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 class DetailMeasurePage extends StatefulWidget {
   final Measurement measurement;
@@ -78,7 +79,6 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
         // height: 75,
         child: BlocBuilder<MeasureBloc, MeasureStates>(
           builder: (builderContext, state) {
-            log("$state");
             if (state is MeasureLoadingState) {
               return const LoadingSpinner();
             } else if (state is MeasureErrorState) {
@@ -132,10 +132,12 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
               contentBackgroundColor: kGris,
               headerBackgroundColorOpened: secondaryColor,
               paddingListHorizontal: 0,
+              disableScrolling: true,
               children: [
                 AccordionSection(
                   contentBorderRadius: 0,
                   contentHorizontalPadding: 0,
+                  // contentBackgroundColor: secondaryColor,
                   header: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
@@ -147,27 +149,29 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
                       ),
                     ),
                   ),
-                  content: Column(
-                    children: [
-                      MeasureItemInfos(
-                        title: "Type de tenue",
-                        content: "${widget.measurement.model}",
-                      ),
-                      SizedBox(
-                        height: measureHeight,
-                        child: ListView.builder(
-                          itemCount: widget.measurement.measures?.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String key = widget.measurement.measures!.keys
-                                .elementAt(index);
-                            return MeasureItemInfos(
-                              title: key,
-                              content: widget.measurement.measures![key],
-                            );
-                          },
+                  content: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        MeasureItemInfos(
+                          title: "Type de tenue",
+                          content: "${widget.measurement.model}",
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: measureHeight,
+                          child: ListView.builder(
+                            itemCount: widget.measurement.measures?.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              String key = widget.measurement.measures!.keys
+                                  .elementAt(index);
+                              return MeasureItemInfos(
+                                title: key,
+                                content: widget.measurement.measures![key],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 AccordionSection(
@@ -184,74 +188,81 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
                       ),
                     ),
                   ),
-                  content: Column(
-                    children: [
-                      const MeasureItemInfos(
-                        title: "Photo du model",
-                        titleColor: primaryColor,
-                      ),
-                      widget.measurement.photoModelUrl != null &&
-                              widget.measurement.photoModelUrl != ""
-                          ? Container(
-                              height: 256,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(16),
-                              margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
-                              decoration: BoxDecoration(
-                                color: kWhite,
-                                border: Border.all(
-                                  color: primaryColor,
-                                  width: 2,
+                  content: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const MeasureItemInfos(
+                          title: "Photo du model",
+                          titleColor: primaryColor,
+                        ),
+                        widget.measurement.photoModelUrl != null &&
+                                widget.measurement.photoModelUrl != ""
+                            ? Container(
+                                padding: const EdgeInsets.all(16),
+                                margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                                decoration: BoxDecoration(
+                                  color: kWhite,
+                                  border: Border.all(
+                                    color: primaryColor,
+                                    width: 2,
+                                  ),
                                 ),
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.measurement.photoModelUrl!,
-                                progressIndicatorBuilder:
-                                    (context, url, progress) {
-                                  return const LoadingSpinner();
-                                },
-                              ),
-                            )
-                          : const MeasureItemInfos(
-                              title: "",
-                              content: "Aucune photo du model ajoutee !",
-                              contentColor: secondaryColor,
-                            ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      const MeasureItemInfos(
-                        title: "Photo du tissu",
-                        titleColor: primaryColor,
-                      ),
-                      widget.measurement.photoTissuUrl != null &&
-                              widget.measurement.photoTissuUrl != ""
-                          ? Container(
-                              height: 256,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(16),
-                              margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
-                              decoration: BoxDecoration(
-                                color: kWhite,
-                                border: Border.all(
-                                  color: primaryColor,
-                                  width: 2,
+                                child: ZoomOverlay(
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.measurement.photoModelUrl!,
+                                    width: double.infinity,
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) {
+                                      return const LoadingSpinner();
+                                    },
+                                  ),
                                 ),
+                              )
+                            : const MeasureItemInfos(
+                                title: "",
+                                content: "Aucune photo du model ajoutee !",
+                                contentColor: secondaryColor,
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.measurement.photoTissuUrl!,
-                                progressIndicatorBuilder:
-                                    (context, url, progress) {
-                                  return const LoadingSpinner();
-                                },
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const MeasureItemInfos(
+                          title: "Photo du tissu",
+                          titleColor: primaryColor,
+                        ),
+                        widget.measurement.photoTissuUrl != null &&
+                                widget.measurement.photoTissuUrl != ""
+                            ? Container(
+                                padding: const EdgeInsets.all(16),
+                                margin: const EdgeInsets.fromLTRB(5, 0, 5, 16),
+                                decoration: BoxDecoration(
+                                  color: kWhite,
+                                  border: Border.all(
+                                    color: primaryColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: ZoomOverlay(
+                                  minScale: 0.5, // Optional
+                                  maxScale: 5.0, // Optional
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.measurement.photoTissuUrl!,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) {
+                                      return const LoadingSpinner();
+                                    },
+                                  ),
+                                ),
+                              )
+                            : const MeasureItemInfos(
+                                title: "",
+                                content: "Aucune photo du tissu ajoutee !",
+                                contentColor: secondaryColor,
                               ),
-                            )
-                          : const MeasureItemInfos(
-                              title: "",
-                              content: "Aucune photo du tissu ajoutee !",
-                              contentColor: secondaryColor,
-                            ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -264,6 +275,7 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
 
   List<PopupMenuEntry<String>> getMenuItems() {
     List<PopupMenuEntry<String>> menuItems = [];
+    log("STATUS ==> ${widget.measurement.status}");
 
     if (widget.measurement.status == 'PENDING') {
       menuItems.add(
@@ -299,18 +311,7 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
           ),
         ),
       );
-    } else if (widget.measurement.status == 'PRODRESS') {
-      menuItems.add(
-        PopupMenuItem<String>(
-          value: 'Commencer',
-          child: CustomMenuItem(
-            icon: Icons.start,
-            name: "Commencer",
-            color: primaryColor,
-            onPressed: () {},
-          ),
-        ),
-      );
+    } else if (widget.measurement.status == 'PROGRESS') {
       menuItems.add(
         PopupMenuItem<String>(
           value: 'Affecter',

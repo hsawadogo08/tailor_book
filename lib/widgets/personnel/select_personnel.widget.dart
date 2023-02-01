@@ -81,6 +81,18 @@ class _SelectPersonnelState extends State<SelectPersonnel> {
       context,
       label: "Mon Personnel",
       selectedValue: currentPersonnel,
+      emptyBuilder: (context) {
+        return Center(
+          child: Text(
+            "Aucun personnel trouvé !",
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              color: primaryColor,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        );
+      },
       items: List.generate(
         personnels.length,
         (index) =>

@@ -115,7 +115,6 @@ class _SignupOtpPageState extends State<SignupOtpPage> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: CustomButton(
                   buttonText: "Continuer",
-                  buttonSize: 16,
                   buttonColor: primaryColor,
                   btnTextColor: kWhite,
                   buttonFonction: () {},
@@ -150,8 +149,7 @@ class _SignupOtpPageState extends State<SignupOtpPage> {
                       textAlign: TextAlign.center,
                       "Un code de validation a été envoyé à ce numéro de téléphone !",
                       style: GoogleFonts.exo2(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                         color: primaryColor,
                       ),
                     ),
@@ -164,13 +162,13 @@ class _SignupOtpPageState extends State<SignupOtpPage> {
                   delay: Duration(milliseconds: delayedDuration * 3),
                   child: OtpTextField(
                     numberOfFields: 6,
-                    fieldWidth: 52,
+                    // fieldWidth: 45,
                     borderColor: primaryColor,
                     enabledBorderColor: primaryColor,
                     focusedBorderColor: secondaryColor,
                     borderWidth: 2.0,
                     textStyle: GoogleFonts.montserrat(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
@@ -234,7 +232,6 @@ class _SignupOtpPageState extends State<SignupOtpPage> {
                         style: GoogleFonts.montserrat(
                           color: primaryColor,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       TextButton(
