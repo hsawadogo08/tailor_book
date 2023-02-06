@@ -1,14 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tailor_book/bloc/user.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/profil/update_password.page.dart';
 import 'package:tailor_book/pages/profil/update_profil.page.dart';
 import 'package:tailor_book/pages/utilities/a_propos.page.dart';
+import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/parameter.dart';
 
 class ProfilPage extends StatefulWidget {
@@ -153,14 +156,15 @@ class _ProfilPageState extends State<ProfilPage> {
                     });
                   },
                 ),
-                // Parameter(
-                //   icon: Icons.share,
-                //   title: 'Partager l\'application',
-                //   subTitle: '',
-                //   function: () {
-                //     // Share.share('https://www.openburkina.bf/');
-                //   },
-                // ),
+                Parameter(
+                  icon: Icons.share,
+                  title: 'Partager l\'application',
+                  subTitle: '',
+                  function: () {
+                    Share.share(
+                        'https://firebasestorage.googleapis.com/v0/b/tailor-book-5b877.appspot.com/o/APK%2Ftailor_book.apk?alt=media&token=216b0422-a3b5-4555-a067-1552eb688ea7');
+                  },
+                ),
                 Parameter(
                   icon: Icons.info,
                   title: 'A propos',
@@ -177,10 +181,18 @@ class _ProfilPageState extends State<ProfilPage> {
                   },
                 ),
                 Parameter(
+                  icon: Icons.delete,
+                  title: 'Supprimer mon compte',
+                  subTitle: '',
+                  function: () {
+                    // Share.share('https://www.openburkina.bf/');
+                  },
+                ),
+                Parameter(
                   icon: Icons.logout,
                   title: 'Se déconnecter',
                   subTitle: 'Se déconnecter de l\'application',
-                  function: () {},
+                  function: _onLogout,
                 ),
               ],
             ),
@@ -189,6 +201,52 @@ class _ProfilPageState extends State<ProfilPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _onLogout() async {
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const AppLogo(
+          width: 128,
+          height: 128,
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        content: Text(
+          "Souhaitez-vous se déconnecter de l'application ?",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.montserrat(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              'Non',
+              style: GoogleFonts.montserrat(
+                fontSize: 16,
+                color: primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => SystemNavigator.pop(),
+            child: Text(
+              'Oui',
+              style: GoogleFonts.montserrat(
+                fontSize: 16,
+                color: secondaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

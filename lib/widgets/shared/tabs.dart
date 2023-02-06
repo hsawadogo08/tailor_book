@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tailor_book/constants/color.dart';
+import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/tabsItems.dart';
 
 class Tabs extends StatefulWidget {
@@ -28,10 +29,16 @@ class _TabsState extends State<Tabs> {
           barrierDismissible: false,
           context: context,
           builder: (context) => new AlertDialog(
+            title: const AppLogo(
+              width: 128,
+              height: 128,
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             content: Text(
               "Souhaitez-vous quitter l'application ?",
+              textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -39,7 +46,7 @@ class _TabsState extends State<Tabs> {
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
                 child: Text(
-                  'Annuler',
+                  'Non',
                   style: GoogleFonts.montserrat(
                     fontSize: 16,
                     color: primaryColor,

@@ -329,7 +329,7 @@ class _AddMeasureState extends State<AddMeasure> {
             ),
             DynamicForm(
               formController: formController,
-              fields: state.fields,
+              fields: state.fields.reversed.toList(),
             ),
           ],
         );

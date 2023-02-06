@@ -110,19 +110,19 @@ class SlidePage extends StatelessWidget {
 final List<OnBoardModel> onBoardData = [
   const OnBoardModel(
     title: "Enregistrement des mesures",
-    description: "Gérer l'enregistrement de vos mesures ainsi leurs status",
+    description: "Gérer l'enregistrement de vos mesures ainsi que leurs status",
     imgUrl: "assets/images/save.png",
   ),
   const OnBoardModel(
     title: "Gestion du portefeuille",
     description:
-        "Gérer en toute éfficacité les entrées d'argent, les avances de paiement des clients ainsi que leurs crédits !",
+        "Gérer en toute éfficacité les entrées d'argent, les avances de paiement des clients et les crédits !",
     imgUrl: 'assets/images/money.png',
   ),
   const OnBoardModel(
     title: "Gestion des statistiques",
     description:
-        "Avoir des statistiques telles que les commandes en attente, le nombre de tenue cousues par client",
+        "Avoir des statistiques telles que les commandes en attente, le nombre de tenue cousues par client et par personnels",
     imgUrl: 'assets/images/graph.png',
   ),
 ];

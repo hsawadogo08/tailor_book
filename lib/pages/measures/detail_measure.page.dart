@@ -123,7 +123,7 @@ class _DetailMeasurePageState extends State<DetailMeasurePage> {
             ),
             MeasureItemInfos(
               title: "Couturier",
-              content: widget.measurement.couturierId == null
+              content: widget.measurement.couturierId == ''
                   ? "Pas encore affecté !"
                   : "${widget.measurement.couturierName}",
             ),

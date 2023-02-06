@@ -23,6 +23,8 @@ class UserService {
 
   static Future<Utilisateur?> onSignin(
       String phoneNumber, String password) async {
+    log("phoneNumber ==> $phoneNumber");
+    log("password ==> $password");
     await auth.signInAnonymously();
     DocumentSnapshot doc = await users.doc(phoneNumber).get();
     if (!doc.exists) {

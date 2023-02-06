@@ -7,6 +7,9 @@ class Personnel {
   String? lastName;
   String? phoneNumber;
   String? userUID;
+  int? pendingNumber;
+  int? progressNumber;
+  int? closedNumber;
   DateTime? createdDate;
 
   Personnel({
@@ -15,6 +18,9 @@ class Personnel {
     this.firstName = "",
     this.lastName = "",
     this.phoneNumber = "",
+    this.pendingNumber = 0,
+    this.progressNumber = 0,
+    this.closedNumber = 0,
     this.userUID = "",
   });
 
@@ -24,6 +30,9 @@ class Personnel {
       "lastName": lastName,
       "firstName": firstName,
       "phoneNumber": phoneNumber,
+      "pendingNumber": pendingNumber,
+      "progressNumber": progressNumber,
+      "closedNumber": closedNumber,
       "userUID": userUID,
       "createdDate": DateTime.now(),
     };
@@ -40,5 +49,11 @@ class Personnel {
     userUID = data["userUID"];
     createdDate = DateTime.fromMillisecondsSinceEpoch(
         docCreatedDate.millisecondsSinceEpoch);
+    pendingNumber =
+        data['pendingNumber'] == null ? 0 : int.parse(data['pendingNumber']);
+    progressNumber =
+        data['progressNumber'] == null ? 0 : int.parse(data['progressNumber']);
+    closedNumber =
+        data['closedNumber'] == null ? 0 : int.parse(data['closedNumber']);
   }
 }

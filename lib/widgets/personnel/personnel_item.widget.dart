@@ -85,6 +85,51 @@ class PersonnelItem extends StatelessWidget {
                     color: primaryColor,
                   ),
                 ),
+                // Row(
+                //   children: [
+                //     Text(
+                //       "Tenue :",
+                //       style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700,
+                //         color: primaryColor,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 4,
+                //     ),
+                //     Text(
+                //       "(${personnel.pendingNumber})",
+                //       style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700,
+                //         color: kRed,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 4,
+                //     ),
+                //     Text(
+                //       "(${personnel.progressNumber})",
+                //       style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700,
+                //         color: tertiaryColor,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 4,
+                //     ),
+                //     Text(
+                //       "(${personnel.closedNumber})",
+                //       style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700,
+                //         color: kGreen,
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),

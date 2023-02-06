@@ -13,6 +13,7 @@ import 'package:tailor_book/widgets/shared/slidepage.dart';
 import 'package:tailor_book/widgets/shared/tabs.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 import 'package:tailor_book/widgets/signin/not_signup.widget.dart';
+import 'package:tailor_book/widgets/signin/socail_login_section.widget.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});
@@ -136,25 +137,6 @@ class SigninPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    // const SizedBox(
-                    //   height: 16,
-                    // ),
-                    // CustomButton(
-                    //   buttonText: "Ajouter une photo",
-                    //   buttonSize: 16,
-                    //   buttonColor: primaryColor,
-                    //   btnTextColor: kWhite,
-                    //   buttonFonction: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) {
-                    //           return const AddPhoto(title: "Ma photo");
-                    //         },
-                    //       ),
-                    //     );
-                    //   },
-                    // )
                     // const SizedBox(
                     //   height: 32,
                     // ),

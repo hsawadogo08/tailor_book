@@ -33,6 +33,8 @@ class _DynamicFormState extends State<DynamicForm> {
 
   @override
   void initState() {
+    
+    log("LIST ==> ${fields.reversed.toList()}");
     for (var element in fields) {
       textElements.add(
         TextElement(
