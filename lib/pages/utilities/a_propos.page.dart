@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/widgets/shared/AproposInfos.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 

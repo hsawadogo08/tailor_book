@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tailor_book/constants/color.dart';
 
 class Toast {
   static void showFlutterToast(
@@ -10,7 +11,7 @@ class Toast {
   ) {
     final FToast fToast = FToast().init(context);
     Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: _getToastBgColor(toastType),
@@ -28,7 +29,8 @@ class Toast {
           Expanded(
             child: Text(
               message,
-              style: GoogleFonts.comfortaa(
+              textAlign: TextAlign.start,
+              style: GoogleFonts.montserrat(
                 fontSize: 16,
                 color: Colors.white,
               ),
@@ -41,16 +43,16 @@ class Toast {
     fToast.showToast(
       child: toast,
       gravity: ToastGravity.TOP,
-      toastDuration: const Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 3),
     );
   }
 
   static Color _getToastBgColor(String toastType) {
     switch (toastType.toLowerCase()) {
       case 'error':
-        return Colors.red;
+        return kRed;
       case 'warning':
-        return Colors.amber;
+        return secondaryColor;
       case 'success':
         return Colors.green;
       default:

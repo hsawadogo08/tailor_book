@@ -1,118 +1,12 @@
-// Events
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tailor_book/models/measurement.model.dart';
-import 'package:tailor_book/models/personnel.model.dart';
-import 'package:tailor_book/services/measure.service.dart';
+import 'package:bloc/bloc.dart';
 
-abstract class MeasureEvent {}
+import '../../models/measurement.model.dart';
+import '../../services/measure.service.dart';
+import 'measure_event.dart';
+import 'measure_state.dart';
 
-class SaveMeasureEvent extends MeasureEvent {
-  final Measurement measurement;
-  SaveMeasureEvent({
-    required this.measurement,
-  });
-}
-
-class SearchMeasuresEvent extends MeasureEvent {
-  final int size;
-  final String status;
-  SearchMeasuresEvent({
-    this.size = 10,
-    this.status = '',
-  });
-}
-
-class MeasureAmoutEvent extends MeasureEvent {}
-
-class UpdateMeasurementStatusEvent extends MeasureEvent {
-  final String measureId;
-  final String status;
-  UpdateMeasurementStatusEvent({
-    required this.measureId,
-    required this.status,
-  });
-}
-
-class DeleteMeasurement extends MeasureEvent {
-  final Measurement measurement;
-  DeleteMeasurement({
-    required this.measurement,
-  });
-}
-
-class AffectationMeasurementEvent extends MeasureEvent {
-  final String measureId;
-  final Personnel personnel;
-  AffectationMeasurementEvent({
-    required this.measureId,
-    required this.personnel,
-  });
-}
-
-class MeasureInitialEvent extends MeasureEvent {}
-
-// States
-abstract class MeasureStates {}
-
-class MeasureSuccessState extends MeasureStates {
-  final String successMessage;
-  MeasureSuccessState({
-    required this.successMessage,
-  });
-}
-
-class MeasureLinkSuccessState extends MeasureStates {
-  final String successMessage;
-  MeasureLinkSuccessState({
-    required this.successMessage,
-  });
-}
-
-class SaveMeasureSuccessState extends MeasureStates {
-  final String successMessage;
-  SaveMeasureSuccessState({
-    required this.successMessage,
-  });
-}
-
-class SearchMeasureSuccessState extends MeasureStates {
-  final List<Measurement> measures;
-  SearchMeasureSuccessState({
-    required this.measures,
-  });
-}
-
-class MeasureAmoutSuccessState extends MeasureStates {
-  final Map<String, dynamic> amount;
-  MeasureAmoutSuccessState({
-    required this.amount,
-  });
-}
-
-class MeasureErrorState extends MeasureStates {
-  final String errorMessage;
-  MeasureErrorState({
-    required this.errorMessage,
-  });
-}
-
-class MeasureLinkErrorState extends MeasureStates {
-  final String errorMessage;
-  MeasureLinkErrorState({
-    required this.errorMessage,
-  });
-}
-
-class MeasureInitialState extends MeasureStates {}
-
-class MeasureLoadingState extends MeasureStates {}
-
-class MeasureLinkLoadingState extends MeasureStates {}
-
-// Bloc
 class MeasureBloc extends Bloc<MeasureEvent, MeasureStates> {
   MeasureBloc() : super(MeasureInitialState()) {
     on((SaveMeasureEvent event, emit) async {
@@ -146,7 +40,10 @@ class MeasureBloc extends Bloc<MeasureEvent, MeasureStates> {
       );
 
       try {
-        QuerySnapshot<Object?> response = await MeasureService.getAllMeasures();
+        QuerySnapshot<Object?> response = await MeasureService.getAllMeasures(
+          size: event.size,
+          status: event.status,
+        );
         List<Measurement> measures = response.docs
             .map((e) => Measurement.fromDocumentSnapshot(e))
             .toList();

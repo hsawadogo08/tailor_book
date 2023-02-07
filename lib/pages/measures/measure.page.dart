@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tailor_book/bloc/measure.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure_event.dart';
+import 'package:tailor_book/bloc/measure/measure_state.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/measures/add_measure.page.dart';
 import 'package:tailor_book/pages/measures/detail_measure.page.dart';
@@ -23,6 +25,7 @@ class MeasurePage extends StatefulWidget {
 }
 
 class _MeasurePageState extends State<MeasurePage> {
+  String searchkeyValue = '';
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,7 @@ class _MeasurePageState extends State<MeasurePage> {
 
   @override
   Widget build(BuildContext context) {
+    log("Buildcontext...");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(2),
@@ -88,7 +92,14 @@ class _MeasurePageState extends State<MeasurePage> {
                   const SizedBox(
                     height: 8,
                   ),
-                  const CustomSearchTextField(),
+                  CustomSearchTextField(
+                    onSearch: (searchKey) {
+                      setState(() {
+                        searchkeyValue = searchKey;
+                      });
+                      log("Search key ==> $searchKey");
+                    },
+                  ),
                 ],
               ),
             ),
@@ -105,6 +116,8 @@ class _MeasurePageState extends State<MeasurePage> {
                         "Vous n'avez pas enregistré une mesure !",
                       );
                     }
+
+                    log("searchkeyValue ==> $searchkeyValue");
 
                     return LazyLoadScrollView(
                       onEndOfPage: () {},

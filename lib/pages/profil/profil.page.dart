@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tailor_book/bloc/user.bloc.dart';
+import 'package:tailor_book/bloc/user/user.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/profil/update_password.page.dart';
 import 'package:tailor_book/pages/profil/update_profil.page.dart';
@@ -83,7 +81,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           size: 25.0,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

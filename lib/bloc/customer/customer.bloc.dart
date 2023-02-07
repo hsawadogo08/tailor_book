@@ -1,34 +1,11 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tailor_book/models/customer.model.dart';
-import 'package:tailor_book/services/customer.service.dart';
+import 'package:bloc/bloc.dart';
 
-abstract class CustomerEvent {}
-
-class SearchCustomerEvent extends CustomerEvent {}
-
-// States
-abstract class CustomerStates {}
-
-class SearchCustomerSuccessState extends CustomerStates {
-  final List<Customer> customers;
-  SearchCustomerSuccessState({
-    required this.customers,
-  });
-}
-
-class CustomerErrorState extends CustomerStates {
-  final String errorMessage;
-  CustomerErrorState({
-    required this.errorMessage,
-  });
-}
-
-class CustomerInitialState extends CustomerStates {}
-
-class CustomerLoadingState extends CustomerStates {}
+import '../../models/customer.model.dart';
+import '../../services/customer.service.dart';
+import 'customer_event.dart';
+import 'customer_state.dart';
 
 // Bloc
 class CustomerBloc extends Bloc<CustomerEvent, CustomerStates> {

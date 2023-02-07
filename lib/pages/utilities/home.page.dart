@@ -1,11 +1,12 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tailor_book/bloc/measure.bloc.dart';
-import 'package:tailor_book/bloc/user.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure_state.dart';
+import 'package:tailor_book/bloc/user/user.bloc.dart';
 import 'package:tailor_book/config/amount_formater.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/measures/add_measure.page.dart';
@@ -14,6 +15,8 @@ import 'package:tailor_book/widgets/home/home_balance_item.widget.dart';
 import 'package:tailor_book/widgets/measure/measure_item.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
+
+import '../../bloc/measure/measure_event.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,7 +29,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<MeasureBloc>().add(SearchMeasuresEvent());
+    context.read<MeasureBloc>().add(
+          SearchMeasuresEvent(size: 10, status: "PENDING"),
+        );
     context.read<UserBloc>().add(UserInfosEvent());
     context.read<MeasureAmountBloc>().add(MeasureAmoutEvent());
   }
@@ -88,21 +93,20 @@ class _HomePageState extends State<HomePage> {
                           color: kWhite,
                         ),
                       ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: kWhite,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(
-                            color: secondaryColor,
-                            width: 2,
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: kWhite.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                        ),
-                        child: const Icon(
-                          Icons.notifications,
-                          color: secondaryColor,
-                          size: 32,
+                          child: const Icon(
+                            Icons.notifications_outlined,
+                            color: kWhite,
+                            size: 25,
+                          ),
                         ),
                       ),
                     ],
@@ -151,15 +155,17 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       HomeBalanceItem(
-                        balanceLabel: "Mon Solde",
+                        balanceLabel: "Solde",
                         balanceValue:
                             AmountFormater.format(state.amount['amount']),
+                        icon: FontAwesomeIcons.moneyCheckDollar,
                       ),
                       HomeBalanceItem(
-                        balanceLabel: "Mes Crédits",
+                        balanceLabel: "Crédit",
                         balanceValue:
                             "- ${AmountFormater.format(state.amount['credit'])}",
                         backgroundColor: secondaryColor,
+                        icon: Icons.money_off,
                       ),
                     ],
                   );
@@ -168,13 +174,15 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [
                       HomeBalanceItem(
-                        balanceLabel: "Mon Solde",
+                        balanceLabel: "Solde",
                         balanceValue: "--",
+                        icon: FontAwesomeIcons.moneyCheckDollar,
                       ),
                       HomeBalanceItem(
-                        balanceLabel: "Mes Crédits",
+                        balanceLabel: "Crédit",
                         balanceValue: "--",
                         backgroundColor: secondaryColor,
+                        icon: Icons.money_off,
                       ),
                     ],
                   );
@@ -189,31 +197,29 @@ class _HomePageState extends State<HomePage> {
                 horizontal: 16,
               ),
               child: Text(
-                "Les mesures en attente",
-                style: GoogleFonts.exo2(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                "Mesures en attente",
+                style: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                   color: primaryColor,
                 ),
               ),
             ),
             const SizedBox(
-              height: 8,
-            ),
+                // height: 2,
+                ),
             Expanded(
               child: BlocConsumer<MeasureBloc, MeasureStates>(
                 listener: (context, state) {},
                 builder: (builderContext, state) {
-                  log("Home State ==> $state");
                   if (state is MeasureLoadingState) {
-                    log("===========Start MeasureLoadingState=========");
                     return const LoadingSpinner();
                   } else if (state is MeasureErrorState) {
                     return errorSection(state.errorMessage, builderContext);
                   } else if (state is SearchMeasureSuccessState) {
                     if (state.measures.isEmpty) {
                       return emptySection(
-                        "Vous n'avez pas enregistré une mesure !",
+                        "Vous n'avez pas mesures en attente !",
                       );
                     }
 
@@ -233,9 +239,12 @@ class _HomePageState extends State<HomePage> {
                                   },
                                 ),
                               ).then((value) {
-                                context
-                                    .read<MeasureBloc>()
-                                    .add(SearchMeasuresEvent());
+                                context.read<MeasureBloc>().add(
+                                      SearchMeasuresEvent(
+                                        size: 10,
+                                        status: "PENDING",
+                                      ),
+                                    );
                                 context
                                     .read<MeasureAmountBloc>()
                                     .add(MeasureAmoutEvent());

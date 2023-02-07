@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tailor_book/bloc/customer.bloc.dart';
+import 'package:tailor_book/bloc/customer/customer.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/pages/customers/detail_customer.page.dart';
 import 'package:tailor_book/widgets/customer/customer_item.widget.dart';
@@ -11,6 +11,9 @@ import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_search_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/widgets/shared/loadingSpinner.dart';
+
+import '../../bloc/customer/customer_event.dart';
+import '../../bloc/customer/customer_state.dart';
 
 class CustomerPage extends StatefulWidget {
   const CustomerPage({super.key});

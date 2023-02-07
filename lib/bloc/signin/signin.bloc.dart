@@ -1,41 +1,10 @@
-// Event
 import 'dart:developer';
+import 'package:bloc/bloc.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tailor_book/models/utilisateur.model.dart';
-import 'package:tailor_book/services/user.service.dart';
-
-abstract class SignInEvent {}
-
-class SignInWithPhoneNumberEvent extends SignInEvent {
-  final String phoneNumber;
-  final String password;
-  SignInWithPhoneNumberEvent({
-    required this.phoneNumber,
-    required this.password,
-  });
-}
-
-// States
-abstract class SignInStates {}
-
-class SignInSuccessState extends SignInStates {
-  final String successMessage;
-  SignInSuccessState({
-    required this.successMessage,
-  });
-}
-
-class SignInErrorState extends SignInStates {
-  final String errorMessage;
-  SignInErrorState({
-    required this.errorMessage,
-  });
-}
-
-class SignInInitialState extends SignInStates {}
-
-class SignInLoadingState extends SignInStates {}
+import '../../models/utilisateur.model.dart';
+import '../../services/user.service.dart';
+import 'signin_event.dart';
+import 'signin_state.dart';
 
 // Bloc
 class SignInBloc extends Bloc<SignInEvent, SignInStates> {
@@ -62,11 +31,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInStates> {
               await UserService.onSignin(phoneNumber, password);
           emit(
             SignInSuccessState(
-              successMessage: "Bienvenue ${utilisateur?.lastName} !",
+              successMessage: "Bienvenue ${utilisateur?.firstName} !",
             ),
           );
-        } on Exception catch (_, e) {
-          log("$e");
+        } catch (e, stackTrace) {
+          log("stackTrace: $stackTrace");
+          log("SignIn Error: $e");
           emit(
             SignInErrorState(
               errorMessage: e.toString().split(": ")[1],

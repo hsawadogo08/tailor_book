@@ -2,7 +2,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tailor_book/bloc/signin.bloc.dart';
+import 'package:tailor_book/bloc/signin/signin.bloc.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/widgets/shared/app_logo.widget.dart';
 import 'package:tailor_book/widgets/shared/custom_button.widget.dart';
@@ -13,7 +13,9 @@ import 'package:tailor_book/widgets/shared/slidepage.dart';
 import 'package:tailor_book/widgets/shared/tabs.dart';
 import 'package:tailor_book/widgets/shared/toast.dart';
 import 'package:tailor_book/widgets/signin/not_signup.widget.dart';
-import 'package:tailor_book/widgets/signin/socail_login_section.widget.dart';
+
+import '../../bloc/signin/signin_event.dart';
+import '../../bloc/signin/signin_state.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});
@@ -46,6 +48,9 @@ class SigninPage extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    const SizedBox(
+                      height: 32,
+                    ),
                     DelayedDisplay(
                       delay: Duration(milliseconds: delayedDuration),
                       child: const AppLogo(

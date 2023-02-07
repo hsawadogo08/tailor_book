@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tailor_book/models/password.model.dart';
 import 'package:tailor_book/models/utilisateur.model.dart';
 import 'package:tailor_book/services/sharedPrefConfig.dart';
 import 'package:tailor_book/services/sharedPrefKeys.dart';
@@ -23,20 +22,18 @@ class UserService {
 
   static Future<Utilisateur?> onSignin(
       String phoneNumber, String password) async {
-    log("phoneNumber ==> $phoneNumber");
-    log("password ==> $password");
     await auth.signInAnonymously();
     DocumentSnapshot doc = await users.doc(phoneNumber).get();
     if (!doc.exists) {
-      throw Exception("Désolé! Aucun compte n'est associé à ce numéro !");
+      throw Exception("Vos identifiants sont érronés !");
     }
 
     Utilisateur utilisateur = Utilisateur.fromDocumentSnapshot(doc);
 
     if (utilisateur.phoneNumber != phoneNumber) {
-      throw Exception("Les identifiants sont érronés !");
+      throw Exception("Vos identifiants sont érronés !");
     } else if (utilisateur.password != password) {
-      throw Exception("Les identifiants sont érronés !");
+      throw Exception("Vos identifiants sont érronés !");
     }
     await SharedPrefConfig.saveStringData(
       SharePrefKeys.JWT_TOKEN,

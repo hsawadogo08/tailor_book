@@ -49,7 +49,7 @@ class MeasureService {
   }
 
   static Future<QuerySnapshot<Object?>> getAllMeasures({
-    int? size,
+    int? size = 10,
     String status = '',
   }) async {
     String userUID =
@@ -58,11 +58,20 @@ class MeasureService {
     if (userUID == "") {
       throw Exception("Le compte est introuvable !");
     }
-    return await measures
-        .where("userUID", isEqualTo: userUID)
-        .where("deleted", isEqualTo: false)
-        .orderBy('createdDate', descending: true)
-        .get();
+
+    return status == ''
+        ? await measures
+            .where("userUID", isEqualTo: userUID)
+            .where("deleted", isEqualTo: false)
+            .orderBy('createdDate', descending: true)
+            // .limit(size!)
+            .get()
+        : await measures
+            .where("userUID", isEqualTo: userUID)
+            .where("deleted", isEqualTo: false)
+            .where("status", isEqualTo: status)
+            .orderBy('createdDate', descending: true)
+            .get();
   }
 
   static Future<void> updateStatus(String measureId, String status) async {

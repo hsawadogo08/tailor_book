@@ -1,11 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tailor_book/bloc/measure.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure.bloc.dart';
+import 'package:tailor_book/bloc/measure/measure_event.dart';
+import 'package:tailor_book/bloc/measure/measure_state.dart';
 import 'package:tailor_book/constants/color.dart';
 import 'package:tailor_book/models/measurement.model.dart';
 import 'package:tailor_book/models/personnel.model.dart';

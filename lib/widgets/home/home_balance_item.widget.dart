@@ -7,12 +7,14 @@ class HomeBalanceItem extends StatelessWidget {
   final Color backgroundColor;
   final String balanceLabel;
   final String balanceValue;
+  final IconData icon;
   const HomeBalanceItem({
     super.key,
     this.width,
     this.backgroundColor = primaryColor,
     this.balanceLabel = "",
     this.balanceValue = "",
+    required this.icon,
   });
 
   @override
@@ -21,32 +23,44 @@ class HomeBalanceItem extends StatelessWidget {
     double currentWidth = width == null ? (mediaQueryWidth / 7) * 3 : width!;
     return Container(
       width: currentWidth,
-      height: 100,
+      // height: 100,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            balanceLabel,
-            textAlign: TextAlign.start,
-            style: GoogleFonts.exo2(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: kWhite,
-            ),
+          Icon(
+            icon,
+            color: kWhite,
+            size: 32,
           ),
-          Text(
-            balanceValue,
-            textAlign: TextAlign.start,
-            style: GoogleFonts.exo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: kWhite,
+          const SizedBox(width: 4),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  balanceLabel,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.exo2(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: kWhite,
+                  ),
+                ),
+                Text(
+                  balanceValue,
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.exo2(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: kWhite,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
