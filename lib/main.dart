@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/bloc/customer/customer.bloc.dart';
+import 'package:tailor_book/bloc/filter/filter_bloc.dart';
 import 'package:tailor_book/bloc/form/dynamic_form.bloc.dart';
 import 'package:tailor_book/bloc/measure/measure.bloc.dart';
 import 'package:tailor_book/bloc/personnel/personnel.bloc.dart';
@@ -65,6 +66,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PersonnelBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FilterBloc(),
         ),
       ],
       child: MaterialApp(

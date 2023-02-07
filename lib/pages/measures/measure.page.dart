@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:tailor_book/bloc/filter/filter_bloc.dart';
 import 'package:tailor_book/bloc/measure/measure.bloc.dart';
 import 'package:tailor_book/bloc/measure/measure_event.dart';
 import 'package:tailor_book/bloc/measure/measure_state.dart';
 import 'package:tailor_book/constants/color.dart';
+import 'package:tailor_book/models/measurement.model.dart';
 import 'package:tailor_book/pages/measures/add_measure.page.dart';
 import 'package:tailor_book/pages/measures/detail_measure.page.dart';
 import 'package:tailor_book/widgets/measure/measure_item.widget.dart';
@@ -26,15 +28,16 @@ class MeasurePage extends StatefulWidget {
 
 class _MeasurePageState extends State<MeasurePage> {
   String searchkeyValue = '';
+
   @override
   void initState() {
     super.initState();
     context.read<MeasureBloc>().add(SearchMeasuresEvent());
+    context.read<FilterBloc>().add(SearchFilterkeyEvent(searchKey: ""));
   }
 
   @override
   Widget build(BuildContext context) {
-    log("Buildcontext...");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(2),
@@ -94,64 +97,87 @@ class _MeasurePageState extends State<MeasurePage> {
                   ),
                   CustomSearchTextField(
                     onSearch: (searchKey) {
-                      setState(() {
-                        searchkeyValue = searchKey;
-                      });
-                      log("Search key ==> $searchKey");
+                      log("searchKey ==> $searchKey");
+                      context.read<FilterBloc>().add(
+                            SearchFilterkeyEvent(
+                              searchKey: searchKey,
+                            ),
+                          );
                     },
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: BlocBuilder<MeasureBloc, MeasureStates>(
-                builder: (context, state) {
-                  if (state is MeasureLoadingState) {
-                    return const LoadingSpinner();
-                  } else if (state is MeasureErrorState) {
-                    return errorSection(state.errorMessage, context);
-                  } else if (state is SearchMeasureSuccessState) {
-                    if (state.measures.isEmpty) {
-                      return emptySection(
-                        "Vous n'avez pas enregistré une mesure !",
-                      );
-                    }
+            BlocBuilder<FilterBloc, FilterState>(
+              builder: (filterContext, filterState) {
+                String filterKey = "";
+                if (filterState is SearchFilterkeyState) {
+                  filterKey = filterState.searchKey;
+                }
 
-                    log("searchkeyValue ==> $searchkeyValue");
+                log("filterState ==> $filterState");
+                log("filterKey ==> $filterKey");
+                return Expanded(
+                  child: BlocBuilder<MeasureBloc, MeasureStates>(
+                    builder: (context, state) {
+                      if (state is MeasureLoadingState) {
+                        return const LoadingSpinner();
+                      } else if (state is MeasureErrorState) {
+                        return errorSection(state.errorMessage, context);
+                      } else if (state is SearchMeasureSuccessState) {
+                        if (state.measures.isEmpty) {
+                          return emptySection(
+                            "Vous n'avez pas enregistré une mesure !",
+                          );
+                        }
 
-                    return LazyLoadScrollView(
-                      onEndOfPage: () {},
-                      child: ListView.builder(
-                        itemCount: state.measures.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () async {
-                              log("GestureDetector");
-                              MaterialPageRoute route = MaterialPageRoute(
-                                builder: (context) {
-                                  return DetailMeasurePage(
-                                    measurement: state.measures[index],
+                        List<Measurement> measures = state.measures.where(
+                          (element) {
+                            return element.customerName!
+                                .toUpperCase()
+                                .contains(filterKey.toUpperCase());
+                          },
+                        ).toList();
+
+                        if (measures.isEmpty) {
+                          return emptySection(
+                            "Aucune mesure trouvée !",
+                          );
+                        }
+
+                        return LazyLoadScrollView(
+                          onEndOfPage: () {},
+                          child: ListView.builder(
+                            itemCount: measures.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  MaterialPageRoute route = MaterialPageRoute(
+                                    builder: (context) {
+                                      return DetailMeasurePage(
+                                        measurement: measures[index],
+                                      );
+                                    },
+                                  );
+                                  dynamic value = await Navigator.push(
+                                    context,
+                                    route,
                                   );
                                 },
+                                child: MeasureItem(
+                                  measurement: measures[index],
+                                ),
                               );
-                              dynamic value = await Navigator.push(
-                                context,
-                                route,
-                              );
-                              log("RETURN");
                             },
-                            child: MeasureItem(
-                              measurement: state.measures[index],
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),

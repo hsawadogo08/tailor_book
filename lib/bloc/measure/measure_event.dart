@@ -50,3 +50,5 @@ class AffectationMeasurementEvent extends MeasureEvent {
 }
 
 class MeasureInitialEvent extends MeasureEvent {}
+
+
