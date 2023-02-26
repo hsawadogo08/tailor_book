@@ -59,7 +59,7 @@ class PersonnelItem extends StatelessWidget {
                     Text(
                       "${personnel.lastName}",
                       style: GoogleFonts.montserrat(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: primaryColor,
                       ),

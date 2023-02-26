@@ -64,13 +64,14 @@ class MeasureService {
             .where("userUID", isEqualTo: userUID)
             .where("deleted", isEqualTo: false)
             .orderBy('createdDate', descending: true)
-            // .limit(size!)
+            // .limit(1)
             .get()
         : await measures
             .where("userUID", isEqualTo: userUID)
             .where("deleted", isEqualTo: false)
             .where("status", isEqualTo: status)
             .orderBy('createdDate', descending: true)
+            // .limit(1)
             .get();
   }
 

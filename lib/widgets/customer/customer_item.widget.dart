@@ -59,7 +59,7 @@ class CustomerItem extends StatelessWidget {
                     Text(
                       "${customer.lastName}",
                       style: GoogleFonts.montserrat(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: primaryColor,
                       ),
@@ -70,7 +70,7 @@ class CustomerItem extends StatelessWidget {
                     Text(
                       "${customer.firstName} - ",
                       style: GoogleFonts.montserrat(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: primaryColor,
                       ),

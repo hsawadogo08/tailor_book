@@ -17,7 +17,7 @@ class NotSignup extends StatelessWidget {
             "Vous n'avez pas de compte ?",
             style: GoogleFonts.montserrat(
               color: primaryColor,
-              fontSize: 16,
+              // fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -35,7 +35,7 @@ class NotSignup extends StatelessWidget {
               style: GoogleFonts.montserrat(
                 color: secondaryColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                // fontSize: 16,
               ),
             ),
           ),

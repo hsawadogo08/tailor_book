@@ -97,7 +97,6 @@ class _MeasurePageState extends State<MeasurePage> {
                   ),
                   CustomSearchTextField(
                     onSearch: (searchKey) {
-                      log("searchKey ==> $searchKey");
                       context.read<FilterBloc>().add(
                             SearchFilterkeyEvent(
                               searchKey: searchKey,
@@ -115,8 +114,6 @@ class _MeasurePageState extends State<MeasurePage> {
                   filterKey = filterState.searchKey;
                 }
 
-                log("filterState ==> $filterState");
-                log("filterKey ==> $filterKey");
                 return Expanded(
                   child: BlocBuilder<MeasureBloc, MeasureStates>(
                     builder: (context, state) {

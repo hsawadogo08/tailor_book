@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tailor_book/bloc/customer/customer.bloc.dart';
 import 'package:tailor_book/bloc/filter/filter_bloc.dart';
@@ -15,6 +16,8 @@ import 'package:tailor_book/pages/profil/signin.page.dart';
 import 'package:tailor_book/pages/utilities/slide.page.dart';
 import 'package:tailor_book/services/user.service.dart';
 import 'package:tailor_book/themes/custom.theme.dart';
+
+import 'bloc/measure/measure_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +44,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
     return MultiBlocProvider(
       providers: [
         BlocProvider(

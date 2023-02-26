@@ -15,10 +15,25 @@ class SaveMeasureEvent extends MeasureEvent {
 
 class SearchMeasuresEvent extends MeasureEvent {
   final int size;
+  final int page;
   final String status;
   SearchMeasuresEvent({
+    this.page = 0,
     this.size = 10,
     this.status = '',
+  });
+}
+
+class NextMeasurePageEvent extends MeasureEvent {
+  final int page;
+  final int size;
+  final String status;
+  final List<Measurement> measures;
+  NextMeasurePageEvent({
+    required this.page,
+    required this.size,
+    this.status = '',
+    required this.measures,
   });
 }
 
@@ -50,5 +65,3 @@ class AffectationMeasurementEvent extends MeasureEvent {
 }
 
 class MeasureInitialEvent extends MeasureEvent {}
-
-
